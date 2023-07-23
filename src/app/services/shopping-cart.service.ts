@@ -3,12 +3,9 @@ import {environment} from '../../environments/environment';
 import {DataService} from './data.service';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {ProductPaginate} from '../models/product-paginate';
 import {TokenService} from './token.service';
 import {Product} from '../models/product';
 import {LineOrder} from '../models/line-order';
-import {L} from '@angular/cdk/typings/keycodes';
-import {Region} from '../models/region';
 
 @Injectable({
   providedIn: 'root'
@@ -18,27 +15,27 @@ export class ShoppingCartService {
 
   private url = environment.urlServeur;
 
-  private produitPaginatorSource = new BehaviorSubject<LineOrder[]>(null);
+  private productPaginatorSource = new BehaviorSubject<LineOrder[]>(null);
   private _ShoppingCartIsModified: boolean;
 
-  produitPaginator = this.produitPaginatorSource.asObservable();
+  productPaginator = this.productPaginatorSource.asObservable();
 
   constructor(private http: HttpClient,
               private tokenService: TokenService,
               private dataService: DataService) {
   }
 
-  setproduitPaginator(data: LineOrder[]) {
+  setProductPaginator(data: LineOrder[]) {
     if (data && data.length === 0) {
       this.dataService.setShoppingCart(0);
     }
-    this.produitPaginatorSource.next(data);
+    this.productPaginatorSource.next(data);
   }
 
   public get2(refresh: boolean = false, id: number[]): Observable<LineOrder[]> {
     return new Observable(observer => {
-      if (!refresh && this.produitPaginatorSource.getValue()) {
-        observer.next(this.produitPaginatorSource.getValue());
+      if (!refresh && this.productPaginatorSource.getValue()) {
+        observer.next(this.productPaginatorSource.getValue());
         return observer.complete();
       }
       const params = new HttpParams()
@@ -47,12 +44,12 @@ export class ShoppingCartService {
         const LCs = this.getShoppingCart();
         this.dataService.setShoppingCart(0);
         LCs.forEach(value1 => {
-          this.dataService.addShoppingCart(value1.quantite);
-          value1.produit = value.find(value2 => value2.id === value1.produit_id);
+          this.dataService.addShoppingCart(value1.quantity);
+          value1.product = value.find(value2 => value2.id === value1.product_id);
         });
         console.log(LCs);
-        this.produitPaginatorSource.next(LCs);
-        observer.next(this.produitPaginatorSource.getValue());
+        this.productPaginatorSource.next(LCs);
+        observer.next(this.productPaginatorSource.getValue());
         observer.complete();
       });
     });
@@ -60,18 +57,18 @@ export class ShoppingCartService {
 
   public get(refresh: boolean = false): Observable<LineOrder[]> {
     return new Observable(observer => {
-      if (!refresh && this.produitPaginatorSource.getValue()) {
-        observer.next(this.produitPaginatorSource.getValue());
+      if (!refresh && this.productPaginatorSource.getValue()) {
+        observer.next(this.productPaginatorSource.getValue());
         return observer.complete();
       }
       this.http.get<LineOrder[]>(this.url + '/GAPSC').subscribe(value => {
 
-        this.produitPaginatorSource.next(value);
+        this.productPaginatorSource.next(value);
         this.dataService.setShoppingCart(0);
         value.forEach(value1 => {
-          this.dataService.addShoppingCart(value1.quantite);
+          this.dataService.addShoppingCart(value1.quantity);
         });
-        observer.next(this.produitPaginatorSource.getValue());
+        observer.next(this.productPaginatorSource.getValue());
         observer.complete();
       }, error1 => {
       });
@@ -90,8 +87,8 @@ export class ShoppingCartService {
     return this.http.post<any>(this.url + '/SPSC', LC);
   }
 
-  update(id: number, quantite: number): Observable<any> {
-    return this.http.put<any>(this.url + '/UPSC', {id: id, quantite: quantite});
+  update(id: number, quantity: number): Observable<any> {
+    return this.http.put<any>(this.url + '/UPSC', {id: id, quantity: quantity});
   }
 
   addShoppingCart(LC: LineOrder) {
@@ -102,46 +99,46 @@ export class ShoppingCartService {
     }
   }
 
-  addQuantitetShoppingCart(LC: LineOrder) {
+  addQuantityShoppingCart(LC: LineOrder) {
     if (this.tokenService.loggedIn()) {
-      this.addQuantitetShoppingCartAfterLogin(LC);
+      this.addQuantityShoppingCartAfterLogin(LC);
     } else {
-      this.addQuantitetShoppingCartBeforeLogin(LC);
+      this.addQuantityShoppingCartBeforeLogin(LC);
     }
   }
 
-  addQuantitetShoppingCartAfterLogin(FLC: LineOrder) {
-    this.update(FLC.id, FLC.quantite).subscribe(value => {
+  addQuantityShoppingCartAfterLogin(FLC: LineOrder) {
+    this.update(FLC.id, FLC.quantity).subscribe(value => {
       this.dataService.addShoppingCart();
     });
   }
 
-  addQuantitetShoppingCartBeforeLogin(LC: LineOrder) {
+  addQuantityShoppingCartBeforeLogin(LC: LineOrder) {
     this.dataService.addShoppingCart();
-    this.changeQuantiteFromlocalStorage(LC);
+    this.changeQuantityFromLocalStorage(LC);
   }
 
-  removeQuantitetShoppingCart(LC: LineOrder) {
+  removeQuantityShoppingCart(LC: LineOrder) {
     if (this.tokenService.loggedIn()) {
-      this.removeQuantitetShoppingCartAfterLogin(LC);
+      this.removeQuantityShoppingCartAfterLogin(LC);
     } else {
-      this.removeQuantitetShoppingCartBeforeLogin(LC);
+      this.removeQuantityShoppingCartBeforeLogin(LC);
     }
   }
 
-  removeQuantitetShoppingCartAfterLogin(FLC: LineOrder) {
-    this.update(FLC.id, FLC.quantite).subscribe(value => {
+  removeQuantityShoppingCartAfterLogin(FLC: LineOrder) {
+    this.update(FLC.id, FLC.quantity).subscribe(value => {
       this.dataService.removeShoppingCart();
     });
   }
 
-  removeQuantitetShoppingCartBeforeLogin(LC: LineOrder) {
+  removeQuantityShoppingCartBeforeLogin(LC: LineOrder) {
     this.dataService.removeShoppingCart();
-    this.changeQuantiteFromlocalStorage(LC);
+    this.changeQuantityFromLocalStorage(LC);
   }
 
   syncFromLocaleToDatabase() {
-    const LCs = this.produitPaginatorSource.getValue();
+    const LCs = this.productPaginatorSource.getValue();
     this.get(true).subscribe(value => {
       LCs.forEach(value1 => {
         this.addShoppingCartAfterLogin(value1);
@@ -151,52 +148,52 @@ export class ShoppingCartService {
   }
 
   addShoppingCartAfterLogin(LC: LineOrder) {
-    const FLC = this.existShoppingCart(LC.produit_id);
+    const FLC = this.existShoppingCart(LC.product_id);
     if (!FLC) {
       this.save(LC).subscribe(value => {
-        this.dataService.addShoppingCart(LC.quantite);
-        const tmp = this.produitPaginatorSource.getValue();
+        this.dataService.addShoppingCart(LC.quantity);
+        const tmp = this.productPaginatorSource.getValue();
         tmp.push(LC);
-        this.produitPaginatorSource.next(tmp);
+        this.productPaginatorSource.next(tmp);
         this.ShoppingCartIsModified = true;
       }, error1 => {
         console.log(error1);
       });
     } else {
 
-      if (FLC.quantite + LC.quantite <= LC.produit.article.stock) {
-        this.update(FLC.id, FLC.quantite + LC.quantite).subscribe(value => {
-          FLC.quantite = FLC.quantite + LC.quantite;
-          this.produitPaginatorSource.next(this.produitPaginatorSource.getValue());
-          this.dataService.addShoppingCart(LC.quantite);
+      if (FLC.quantity + LC.quantity <= LC.product.article.stock) {
+        this.update(FLC.id, FLC.quantity + LC.quantity).subscribe(value => {
+          FLC.quantity = FLC.quantity + LC.quantity;
+          this.productPaginatorSource.next(this.productPaginatorSource.getValue());
+          this.dataService.addShoppingCart(LC.quantity);
         }, error1 => console.log(error1));
       }
     }
   }
 
-  quantiteTotaleDeMemeProduit(id: number): number {
-    return this.produitPaginatorSource.getValue().filter(value => value.produit_id === id)
-      .map(value => value.quantite)
+  totalQuantityOfSameProduct(id: number): number {
+    return this.productPaginatorSource.getValue().filter(value => value.product_id === id)
+      .map(value => value.quantity)
       .reduce((previousValue, currentValue) => previousValue + currentValue);
   }
 
   addShoppingCartBeforeLogin(LC: LineOrder) {
     const arr = this.getShoppingCart();
-    console.log(this.produitPaginatorSource.getValue());
-    const FLC = this.existShoppingCart(LC.produit_id);
+    console.log(this.productPaginatorSource.getValue());
+    const FLC = this.existShoppingCart(LC.product_id);
     if (!FLC) {
-      const tmp = this.produitPaginatorSource.getValue();
+      const tmp = this.productPaginatorSource.getValue();
       tmp.push(LC);
-      this.produitPaginatorSource.next(tmp);
-      arr.push(LC.getNewInstanceLigneCommande());
-      this.dataService.addShoppingCart(LC.quantite);
+      this.productPaginatorSource.next(tmp);
+      arr.push(LC.getNewInstanceLineOrder());
+      this.dataService.addShoppingCart(LC.quantity);
       localStorage.setItem('ShoppingCart', JSON.stringify(arr));
     } else {
-      if (FLC.quantite + LC.quantite <= LC.produit.article.stock) {
-        FLC.quantite = FLC.quantite + LC.quantite;
-        this.produitPaginatorSource.next(this.produitPaginatorSource.getValue());
-        this.dataService.addShoppingCart(LC.quantite);
-        this.changeQuantiteFromlocalStorage(FLC);
+      if (FLC.quantity + LC.quantity <= LC.product.article.stock) {
+        FLC.quantity = FLC.quantity + LC.quantity;
+        this.productPaginatorSource.next(this.productPaginatorSource.getValue());
+        this.dataService.addShoppingCart(LC.quantity);
+        this.changeQuantityFromLocalStorage(FLC);
       }
     }
   }
@@ -204,19 +201,19 @@ export class ShoppingCartService {
 
   exist(id: number, arr: Array<number>): boolean {
     const res = arr.find(value => value === id);
-    return res ? true : false;
+    return !!res;
   }
 
-  changeQuantiteFromlocalStorage(LC: LineOrder) {
+  changeQuantityFromLocalStorage(LC: LineOrder) {
     const arr = this.getShoppingCart();
-    const FLC = arr.find(value => value.produit_id === LC.produit_id);
-    FLC.quantite = LC.quantite;
+    const FLC = arr.find(value => value.product_id === LC.product_id);
+    FLC.quantity = LC.quantity;
     localStorage.setItem('ShoppingCart', JSON.stringify(arr));
   }
 
 
   existShoppingCart(id: number): LineOrder {
-    const res = this.produitPaginatorSource.getValue().find(value => value.produit_id === id);
+    const res = this.productPaginatorSource.getValue().find(value => value.product_id === id);
     return res ? res : null;
   }
 
@@ -228,12 +225,12 @@ export class ShoppingCartService {
 
   getShoppingCartId(): number[] {
     const LCs = this.getShoppingCart();
-    return LCs.map(value => value.produit_id);
+    return LCs.map(value => value.product_id);
   }
 
   clearShoppingCartAfterLogin() {
     this.deleteAll().subscribe(value => {
-      this.produitPaginatorSource.next([]);
+      this.productPaginatorSource.next([]);
       this.dataService.setShoppingCart(0);
 
     });
@@ -241,7 +238,7 @@ export class ShoppingCartService {
 
   clearShoppingCartBeforeLogin() {
     localStorage.setItem('ShoppingCart', JSON.stringify([]));
-    this.produitPaginatorSource.next([]);
+    this.productPaginatorSource.next([]);
     this.dataService.setShoppingCart(0);
   }
 
@@ -255,18 +252,18 @@ export class ShoppingCartService {
 
   removeItemFromShoppingCartAfterLogin(LC: LineOrder) {
     this.delete(LC.id).subscribe(value => {
-      this.produitPaginatorSource.next(this.produitPaginatorSource.getValue().filter(value2 => value2.id !== LC.id));
-      this.dataService.removeShoppingCart(LC.quantite);
+      this.productPaginatorSource.next(this.productPaginatorSource.getValue().filter(value2 => value2.id !== LC.id));
+      this.dataService.removeShoppingCart(LC.quantity);
     });
   }
 
 
   removeItemFromShoppingCartBeforeLogin(LC: LineOrder) {
     let arr = this.getShoppingCart();
-    arr = arr.filter(value => value.produit_id !== LC.produit_id);
+    arr = arr.filter(value => value.product_id !== LC.product_id);
     localStorage.setItem('ShoppingCart', JSON.stringify(arr));
-    this.produitPaginatorSource.next(this.produitPaginatorSource.getValue().filter(value => value.produit_id !== LC.produit_id));
-    this.dataService.removeShoppingCart(LC.quantite);
+    this.productPaginatorSource.next(this.productPaginatorSource.getValue().filter(value => value.product_id !== LC.product_id));
+    this.dataService.removeShoppingCart(LC.quantity);
   }
 
   removeItemFromShoppingCart(LC: LineOrder) {

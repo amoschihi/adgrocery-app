@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpRequest} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {User} from '../models/user';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Region} from '../models/region';
 import {environment} from '../../environments/environment';
 import {TokenService} from './token.service';
 import {DataService} from './data.service';
@@ -11,8 +10,7 @@ import {WishlistService} from './wishlist.service';
 import {AuthentificationService} from './authentification.service';
 import {Router} from '@angular/router';
 import {ShoppingCartService} from './shopping-cart.service';
-import {LineOrder} from '../models/line-order';
-import {CommandeAdminService} from './commande-admin.service';
+import {OrderAdminService} from './order-admin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +23,7 @@ export class UserServicesService {
               private shoppingCartService: ShoppingCartService,
               private dataService: DataService,
               private compareService: CompareService,
-              private commandeAdminService: CommandeAdminService,
+              private orderAdminService: OrderAdminService,
               private route: Router,
               private authService: AuthentificationService,
               private tokenService: TokenService) {
@@ -52,8 +50,8 @@ export class UserServicesService {
     });
   }
 
-  public login(myuser: User): Observable<Object> {
-    return this.http.post(this.url + '/login', myuser);
+  public login(myUser: User): Observable<Object> {
+    return this.http.post(this.url + '/login', myUser);
   }
 
   public loginWithGoogle(token: string): Observable<Object> {
@@ -86,39 +84,37 @@ export class UserServicesService {
     this.tokenService.handle(data);
     this.authService.changeAuthStatus(true);
     this.shoppingCartService.syncFromLocaleToDatabase();
-    this.wishlistService.syncFromLocaleToDatabase().subscribe(value => {
-      this.wishlistService.get(true).subscribe(value2 => {
-      });
+    this.wishlistService.syncFromLocaleToDatabase().subscribe(() => {
+      this.wishlistService.get(true).subscribe();
     });
-    this.compareService.syncFromLocaleToDatabase().subscribe(value => {
-      this.compareService.get(true).subscribe(value2 => {
-      });
+    this.compareService.syncFromLocaleToDatabase().subscribe(() => {
+      this.compareService.get(true).subscribe();
     });
-    this.route.navigateByUrl(url);
+    this.route.navigateByUrl(url).then(() => console.log(`navigated to ${url}`));
   }
 
   public logout2() {
-    this.logout().subscribe(next => {
+    this.logout().subscribe(() => {
       this.tokenService.remove();
       this.tokenService.delRole();
       this.authService.changeAuthStatus(false);
-      this.route.navigateByUrl('/');
-      this.wishlistService.setproduitPaginator(null);
-      this.compareService.setproduitPaginator(null);
-      this.shoppingCartService.setproduitPaginator([]);
+      this.route.navigateByUrl('/').then(() => console.log('navigated to /'));
+      this.wishlistService.setProductPaginator(null);
+      this.compareService.setProductPaginator(null);
+      this.shoppingCartService.setProductPaginator([]);
       this.dataService.setWishlist(0);
       this.dataService.setShoppingCart(0);
       this.dataService.setCompares(0);
       this.setUserSource(null);
-      this.commandeAdminService.setCommandeDelivered(null);
-      this.commandeAdminService.setCommandeShipped(null);
-      this.commandeAdminService.setCommandeNews(null);
-      this.commandeAdminService.setCommandeClosed(null);
+      this.orderAdminService.setOrderDelivered(null);
+      this.orderAdminService.setOrderShipped(null);
+      this.orderAdminService.setOrderNews(null);
+      this.orderAdminService.setOrderClosed(null);
     }, error1 => {
       if (error1.error.message === 'Unauthenticated  :(.') {
         this.tokenService.remove();
         this.authService.changeAuthStatus(false);
-        this.route.navigateByUrl('/');
+        this.route.navigateByUrl('/').then(() => console.log(`navigated to /`));
       }
     });
   }

@@ -22,8 +22,8 @@ export class InfoSiteComponent extends ModelErrors implements OnInit {
   constructor(private route: ActivatedRoute,
               private infoSiteService: InfoSiteService,
               private errorsNotifService: ErrorsNotifService,
-              erreursMessagesService: ErrorsMessagesService) {
-    super(erreursMessagesService);
+              errorsMessagesService: ErrorsMessagesService) {
+    super(errorsMessagesService);
   }
 
   ngOnInit() {
@@ -53,7 +53,7 @@ export class InfoSiteComponent extends ModelErrors implements OnInit {
         observer.next(this.errorsNotifService.handleResponse2('', 'Success'));
         observer.complete();
       }, error1 => {
-        observer.error(this.errorsNotifService.handleErreur2('', 'Error'));
+        observer.error(this.errorsNotifService.handleError2('', 'Error'));
       });
     });
 

@@ -5,14 +5,13 @@ import {map} from 'rxjs/operators';
 import {InfoSite} from '../../models/info-site';
 import {InfoSiteService} from '../info-site.service';
 import {DataService} from '../data.service';
-import {Product} from '../../models/product';
 import {LineOrder} from '../../models/line-order';
 import {TokenService} from '../token.service';
 import {WishlistService} from '../wishlist.service';
 import {CompareService} from '../compare.service';
 import {ShoppingCartService} from '../shopping-cart.service';
-import {CategorieService} from '../categorie.service';
-import {MatiereService} from '../matiere.service';
+import {CategoryService} from '../category.service';
+import {MaterialService} from '../material.service';
 import {ColorService} from '../color.service';
 import {UserServicesService} from '../user-services.service';
 
@@ -29,8 +28,8 @@ export class InfoSiteResolverService implements Resolve<InfoSite> {
     private wishlistService: WishlistService,
     private compareService: CompareService,
     private userService: UserServicesService,
-    private categorieService: CategorieService,
-    private matiereService: MatiereService,
+    private categoryService: CategoryService,
+    private materialService: MaterialService,
     private colorService: ColorService,
     private shoppingCartService: ShoppingCartService
   ) {
@@ -43,7 +42,7 @@ export class InfoSiteResolverService implements Resolve<InfoSite> {
           const ShoppingCart = localStorage.getItem('ShoppingCart');
           if (!ShoppingCart || ShoppingCart === '[]') {
             localStorage.setItem('ShoppingCart', JSON.stringify([]));
-            this.shoppingCartService.setproduitPaginator([]);
+            this.shoppingCartService.setProductPaginator([]);
             this.dataService.setShoppingCart(0);
 
           } else {
@@ -79,7 +78,7 @@ export class InfoSiteResolverService implements Resolve<InfoSite> {
 
           });
         }
-        this.matiereService.get().subscribe(value1 => {
+        this.materialService.get().subscribe(value1 => {
         });
         this.colorService.get().subscribe(value1 => {
         });

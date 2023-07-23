@@ -6,7 +6,7 @@ import {environment} from '../../environments/environment';
 import {TokenService} from './token.service';
 import {Profile} from '../models/profile';
 import {User} from '../models/user';
-import {Adresse} from '../models/adresse';
+import {Address} from '../models/address';
 
 @Injectable({
   providedIn: 'root'

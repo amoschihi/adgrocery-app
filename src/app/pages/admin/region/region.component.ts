@@ -63,7 +63,7 @@ export class RegionComponent implements OnInit {
         this.handleResponse('Success');
       }, error1 => {
         console.log(error1);
-        this.handleErreur('Error');
+        this.handleError('Error');
       });
       this.addRegion = false;
     } else {
@@ -75,7 +75,7 @@ export class RegionComponent implements OnInit {
           this.regionService.get(true);
         }, error1 => {
           console.log(error1);
-          this.handleErreur('Error');
+          this.handleError('Error');
         });
       } else {
         this.cancelEdit(key);
@@ -97,7 +97,7 @@ export class RegionComponent implements OnInit {
               this.regionService.setRegions(this.dataSource);
               this.handleResponse('Success');
             }, error1 => {
-              this.handleErreur('Erreur');
+              this.handleError('Error');
               console.log(error1);
             });
           }, bold: false
@@ -112,10 +112,10 @@ export class RegionComponent implements OnInit {
     this.notify.success(msg, {position: 'rightTop'});
   }
 
-  private handleErreur(msg: string) {
+  private handleError(msg: string) {
     this.notify.clear();
     this.notify.error(msg, {position: 'rightTop'});
-    // this.erreur = erreur.error.error;
+    // this.error = error.error.error;
   }
 
   add() {

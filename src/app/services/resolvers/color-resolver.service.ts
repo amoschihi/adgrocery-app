@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {VilleService} from '../ville.service';
 import {map} from 'rxjs/operators';
 import {ColorService} from '../color.service';
 

@@ -5,8 +5,8 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Repository} from '../models/repository';
 import {Color} from '../models/color';
-import {Matiere} from '../models/matiere';
-import {Ville} from '../models/ville';
+import {Material} from '../models/material';
+import {City} from '../models/city';
 
 @Injectable({
   providedIn: 'root'

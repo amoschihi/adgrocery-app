@@ -14,9 +14,9 @@
             <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
           </mat-form-field>
           <mat-form-field class="col">
-            <input [formControl]="prix" name="{{ 'price' | translate }}" required matInput type="text"
+            <input [formControl]="price" name="{{ 'price' | translate }}" required matInput type="text"
                    [(ngModel)]="product.prix"
-                   placeholder="Prix">
+                   placeholder="Price">
             <mat-error *ngIf="prix.invalid">{{getErrorMessagePrix()}}</mat-error>
           </mat-form-field>
           <mat-form-field class="col">

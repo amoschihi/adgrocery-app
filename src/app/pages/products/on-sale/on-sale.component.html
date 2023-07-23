@@ -8,16 +8,16 @@
     <div class="card-body">
       <div class="text-center">
         <h5 class="card-title">{{prod.name}}</h5>
-        <h5 class="card-subtitle mb-2 text-muted">{{prod.categorie.name}}</h5>
+        <h5 class="card-subtitle mb-2 text-muted">{{prod.category.name}}</h5>
       </div>
       <div class="d-flex justify-content-between  price">
         <div class="d-flex flex-column justify-content-end">
-          <p *ngIf="prod.reduction" class="old-price">
+          <p *ngIf="prod.discount" class="old-price">
             {{prod.prix | currency}}</p>
-          <p *ngIf="prod.reduction" class="new-price">
-            {{prod.prix-prod.prix*(prod.reduction.valeurPourcentage/100) | currency}}
+          <p *ngIf="prod.discount" class="new-price">
+            {{prod.prix-prod.prix*(prod.discount.valeurPourcentage/100) | currency}}
           </p>
-          <p *ngIf="!prod.reduction" class="new-price">{{prod.prix | currency}}</p></div>
+          <p *ngIf="!prod.discount" class="new-price">{{prod.prix | currency}}</p></div>
       </div>
       <div class="divider"></div>
       <div class="text-center">
@@ -34,13 +34,13 @@
     </div>
   </div>
 
-  <div *ngIf="ProductPaginate.total" class="swiper-button-prevc">
-    <button (click)="prev()" [disabled]="!ProductPaginate.prev_page_url" color="accent" mat-mini-fab>
+  <div *ngIf="productPaginate.total" class="swiper-button-prevc">
+    <button (click)="prev()" [disabled]="!productPaginate.prev_page_url" color="accent" mat-mini-fab>
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
   </div>
-  <div *ngIf="ProductPaginate.total" class="swiper-button-nextc">
-    <button (click)="next()" [disabled]="!ProductPaginate.next_page_url" color="accent" mat-mini-fab>
+  <div *ngIf="productPaginate.total" class="swiper-button-nextc">
+    <button (click)="next()" [disabled]="!productPaginate.next_page_url" color="accent" mat-mini-fab>
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
   </div>

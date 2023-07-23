@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SnotifyService} from 'ng-snotify';
 import {ErrorsNotifService} from '../../../../services/errors-notif.service';
 import {ProductPaginate} from '../../../../models/product-paginate';
-import {Product} from '../../../../models/Product';
+import {Product} from '../../../../models/product';
 import {TokenService} from '../../../../services/token.service';
 import {AppComponent} from '../../../../app.component';
 import {environment} from '../../../../../environments/environment';
@@ -33,7 +33,7 @@ export class ListProductsComponent implements OnInit {
 
   ngOnInit() {
     this.socket
-      .fromEvent<any>('quantiteSetNotification')
+      .fromEvent<any>('quantitySetNotification')
       .map(data => data).subscribe(value => {
       let articles: Article[] = [];
       articles = [...JSON.parse(value)];
@@ -70,7 +70,7 @@ export class ListProductsComponent implements OnInit {
                 this.errorsNotifService.handleResponse('Success');
               });
             }, error1 => {
-              this.errorsNotifService.handleErreur('Erreur');
+              this.errorsNotifService.handleError('Error');
               console.log(error1);
             });
           }, bold: false

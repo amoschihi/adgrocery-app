@@ -2,24 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CategorieService} from '../../services/categorie.service';
-import {Categorie} from '../../models/categorie';
+import {CategoryService} from '../../services/category.service';
+import {Category} from '../../models/category';
 import {Color} from '../../models/color';
 import {ColorService} from '../../services/color.service';
-import {ProductService} from '../../services/Product.service';
-import {Product} from '../../models/Product';
+import {ProductService} from '../../services/product.service';
+import {Product} from '../../models/product';
 import {environment} from '../../../environments/environment';
-import {MatiereService} from '../../services/matiere.service';
-import {Matiere} from '../../models/matiere';
+import {MaterialService} from '../../services/material.service';
+import {Material} from '../../models/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MainNavComponent} from '../../layout/main-nav/main-nav.component';
 import {SnotifyService} from 'ng-snotify';
 import {ErrorsNotifService} from '../../services/errors-notif.service';
 import {ProductPaginate} from '../../models/Product-paginate';
 import {AppComponent} from '../../app.component';
-import {CritereRecherche} from '../../models/critere-recherche';
-import {HttpParams} from '@angular/common/http';
-import {DataService} from '../../services/data.service';
+import {SearchCriteria} from '../../models/search-criteria';
 import {LineOrder} from '../../models/line-order';
 import {WishlistService} from '../../services/wishlist.service';
 import {CompareService} from '../../services/compare.service';
@@ -35,12 +33,12 @@ import {Socket} from 'ngx-socket-io';
 })
 export class ProductsComponent implements OnInit {
   itemsProductsSize = 'items-products-size-1';
-  categories: Categorie[];
+  categories: Category[];
   colors: Color[];
-  matieres: Matiere[];
+  materials: Material[];
   public products: Product[] = [];
-  ProductPaginate: ProductPaginate;
-  criereRecherche: CritereRecherche = new CritereRecherche();
+  productPaginate: ProductPaginate;
+  searchCriteria: SearchCriteria = new SearchCriteria();
   show = 12;
   phone = false;
   tablet = false;
@@ -53,10 +51,10 @@ export class ProductsComponent implements OnInit {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private categorieService: CategorieService,
+              private categoryService: CategoryService,
               private colorService: ColorService,
-              private matiereService: MatiereService,
-              private serviceProduct: ProductService,
+              private materialService: MaterialService,
+              private productService: ProductService,
               private notify: SnotifyService,
               private errorsNotifService: ErrorsNotifService,
               private shoppingCartService: ShoppingCartService,
@@ -72,7 +70,7 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.socket
-      .fromEvent<any>('quantiteSetNotification')
+      .fromEvent<any>('quantitySetNotification')
       .map(data => data).subscribe(value => {
       let articles: Article[] = [];
       articles = [...JSON.parse(value)];
@@ -80,12 +78,12 @@ export class ProductsComponent implements OnInit {
       // console.log(articles);
       // console.log(this.ProductPaginate);
       articles.forEach(value0 => {
-        const tmp = this.produitPaginate.data.find(value1 => value1.article.id === value0.id);
+        const tmp = this.productPaginate.data.find(value1 => value1.article.id === value0.id);
         if (tmp) {
           tmp.article.stock = value0.stock;
         }
       });
-      this.serviceProduit.setproduitPaginator(this.produitPaginate);
+      this.productService.setProductPaginator(this.productPaginate);
     });
     this.authService.authAdminStatus.subscribe(next => {
       this.loggedInAdmin = next;
@@ -121,7 +119,7 @@ export class ProductsComponent implements OnInit {
         }
       });
 
-    this.categorieService.categories.subscribe(value => {
+    this.categoryService.categories.subscribe(value => {
       this.categories = value;
     });
 
@@ -129,12 +127,12 @@ export class ProductsComponent implements OnInit {
       this.colors = value;
     });
 
-    this.serviceProduit.produitPaginator.subscribe(value => {
+    this.productService.productPaginator.subscribe(value => {
       this.products = value.data;
-      this.produitPaginate = value;
+      this.productPaginate = value;
     });
 
-    this.matiereService.matieres.subscribe(value => this.matieres = value);
+    this.materialService.materials.subscribe(value => this.materials = value);
 
   }
 
@@ -147,13 +145,13 @@ export class ProductsComponent implements OnInit {
       buttons: [
         {
           text: 'Yes', action: () => {
-            this.serviceProduit.delete(id).subscribe(value => {
-              this.serviceProduit.get(true, this.produitPaginate.current_page, this.produitPaginate.per_page, this.criereRecherche
+            this.productService.delete(id).subscribe(value => {
+              this.productService.get(true, this.productPaginate.current_page, this.productPaginate.per_page, this.searchCriteria
               ).subscribe(value1 => {
                 this.errorsNotifService.handleResponse('Success');
               });
             }, error1 => {
-              this.errorsNotifService.handleErreur('Erreur');
+              this.errorsNotifService.handleError('Error');
               console.log(error1);
             });
           }, bold: false
@@ -163,28 +161,28 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  searchByCategorie_id(categorie_id) {
+  searchByCategorie_id(category_id) {
     this.appComponent.load = true;
-    this.criereRecherche.categorie_id = categorie_id;
-    this.serviceProduit.get(true, 1, this.produitPaginate.per_page, this.criereRecherche).subscribe(value => {
+    this.searchCriteria.category_id = category_id;
+    this.productService.get(true, 1, this.productPaginate.per_page, this.searchCriteria).subscribe(value => {
       this.appComponent.load = false;
     });
   }
 
-  searchBySousCategorie_id(sous_categorie_id) {
+  searchBySousCategorie_id(subCategory_id) {
     this.appComponent.load = true;
-    this.criereRecherche.categorie_id = null;
-    this.criereRecherche.sousCategorie_id = sous_categorie_id;
-    this.serviceProduit.get(true, 1, this.produitPaginate.per_page, this.criereRecherche).subscribe(value => {
+    this.searchCriteria.category_id = null;
+    this.searchCriteria.subCategory_id = subCategory_id;
+    this.productService.get(true, 1, this.productPaginate.per_page, this.searchCriteria).subscribe(value => {
       this.appComponent.load = false;
     });
   }
 
-  chnagePrice(prixFrom, prixTo) {
+  chnagePrice(priceFrom, priceTo) {
     this.appComponent.load = true;
-    this.criereRecherche.prixTo = prixTo;
-    this.criereRecherche.prixFrom = prixFrom;
-    this.serviceProduit.get(true, 1, this.produitPaginate.per_page, this.criereRecherche).subscribe(value => {
+    this.searchCriteria.priceTo = priceTo;
+    this.searchCriteria.priceFrom = priceFrom;
+    this.productService.get(true, 1, this.productPaginate.per_page, this.searchCriteria).subscribe(value => {
       this.appComponent.load = false;
     });
   }
@@ -193,23 +191,23 @@ export class ProductsComponent implements OnInit {
     /*console.log(colors);
     console.log(colors.selectedOptions.selected.map(data => data.value));*/
     this.appComponent.load = true;
-    this.criereRecherche.colors_id = colors.selectedOptions.selected.map(data => data.value);
-    this.serviceProduit.get(true, 1, this.produitPaginate.per_page, this.criereRecherche).subscribe(value => {
+    this.searchCriteria.colors_id = colors.selectedOptions.selected.map(data => data.value);
+    this.productService.get(true, 1, this.productPaginate.per_page, this.searchCriteria).subscribe(value => {
       this.appComponent.load = false;
     });
   }
 
-  changeMatieres(matieres) {
+  changeMaterials(materials) {
     this.appComponent.load = true;
-    this.criereRecherche.matieres_id = matieres.selectedOptions.selected.map(data => data.value);
-    this.serviceProduit.get(true, 1, this.produitPaginate.per_page, this.criereRecherche).subscribe(value => {
+    this.searchCriteria.materials_id = materials.selectedOptions.selected.map(data => data.value);
+    this.productService.get(true, 1, this.productPaginate.per_page, this.searchCriteria).subscribe(value => {
       this.appComponent.load = false;
     });
   }
 
-  change(page, perPage = this.produitPaginate.per_page) {
+  change(page, perPage = this.productPaginate.per_page) {
     this.appComponent.load = true;
-    this.serviceProduit.get(true, page, perPage, this.criereRecherche).subscribe(value => {
+    this.productService.get(true, page, perPage, this.searchCriteria).subscribe(value => {
       this.appComponent.load = false;
     });
   }
@@ -218,11 +216,11 @@ export class ProductsComponent implements OnInit {
     this.compareService.addToCompare(id);
   }
 
-  addToShoppingCart(pro: Produit) {
+  addToShoppingCart(pro: Product) {
     const LC = new LineOrder();
-    LC.produit_id = pro.id;
-    LC.quantite = 1;
-    LC.produit = pro;
+    LC.product_id = pro.id;
+    LC.quantity = 1;
+    LC.product = pro;
     this.shoppingCartService.addShoppingCart(LC);
   }
 

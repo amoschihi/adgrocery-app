@@ -11,20 +11,20 @@ import {ResponseResetPasswordComponent} from '../../pages/resetPassword/response
 import {TestComponent} from '../../pages/test/test.component';
 import {McBreadcrumbsModule} from 'ngx-breadcrumbs';
 import {AccountSettingsComponent} from '../../pages/accountsettings/account-settings/account-settings.component';
-import {AdressesComponent} from '../../pages/accountsettings/adresses/adresses.component';
+import {AdressesComponent} from '../../pages/accountsettings/addresses/adresses.component';
 import {AfterLoginAdminService} from '../../services/after-login-admin.service';
 import {RegionComponent} from '../../pages/admin/region/region.component';
 import {MenuAdminComponent} from '../../pages/admin/menu-admin/menu-admin.component';
-import {VilleComponent} from '../../pages/admin/ville/ville.component';
+import {CityComponent} from '../../pages/admin/city/city.component';
 import {DashboardComponent} from '../../pages/accountsettings/dashboard/dashboard.component';
-import {InformationPersonnelleComponent} from '../../pages/accountsettings/information-personnelle/information-personnelle.component';
+import {PersonalInformationComponent} from '../../pages/accountsettings/personal-information/personal-information.component';
 import {ContactComponent} from '../../pages/contact/contact.component';
-import {MarqueComponent} from '../../pages/admin/marque/marque.component';
-import {CategorieComponent} from '../../pages/admin/categorie/categorie.component';
-import {SousCategorieComponent} from '../../pages/admin/sous-categorie/sous-categorie.component';
+import {BrandComponent} from '../../pages/admin/brand/brand.component';
+import {CategoryComponent} from '../../pages/admin/category/category.component';
+import {SubCategoryComponent} from '../../pages/admin/sub-category/sub-category.component';
 import {ColorComponent} from '../../pages/admin/color/color.component';
 import {HomeComponent} from '../../pages/home/home.component';
-import {MatiereComponent} from '../../pages/admin/matiere/matiere.component';
+import {MaterialComponent} from '../../pages/admin/material/material.component';
 import {InfoSiteResolverService} from '../../services/resolvers/info-site-resolver.service';
 import {InfoSiteComponent} from '../../pages/admin/info-site/info-site.component';
 import {RegionResolverService} from '../../services/resolvers/region-resolver.service';
@@ -32,29 +32,29 @@ import {MainComponent} from '../../layout/main/main.component';
 import {WishlistComponent} from '../../pages/wishlist/wishlist.component';
 import {CompareComponent} from '../../pages/compare/compare.component';
 import {ShoppingCartComponent} from '../../pages/shopping-cart/shopping-cart.component';
-import {CategorieResolverService} from '../../services/resolvers/categorie-resolver.service';
-import {SousCategorieResolverService} from '../../services/resolvers/sous-categorie-resolver.service';
+import {CategoryResolverService} from '../../services/resolvers/category-resolver.service';
+import {SubCategoryResolverService} from '../../services/resolvers/sub-category-resolver.service';
 import {AccountSettingResolverService} from '../../services/resolvers/account-setting-resolver.service';
-import {VilleResolverService} from '../../services/resolvers/ville-resolver.service';
-import {MatiereResolverService} from '../../services/resolvers/matiere-resolver.service';
+import {CityResolverService} from '../../services/resolvers/city-resolver.service';
+import {MaterialResolverService} from '../../services/resolvers/material-resolver.service';
 import {ColorResolverService} from '../../services/resolvers/color-resolver.service';
-import {ReductionComponent} from '../../pages/admin/reduction/reduction.component';
-import {ReductionResolverService} from '../../services/resolvers/reduction-resolver.service';
+import {DiscountComponent} from '../../pages/admin/discount/discount.component';
+import {DiscountResolverService} from '../../services/resolvers/discount-resolver.service';
 import {CheckoutComponent} from '../../pages/checkout/checkout.component';
 import {CheckoutResolverService} from '../../services/resolvers/checkout-resolver.service';
-import {TypeLivraisonComponent} from '../../pages/admin/type-livraison/type-livraison.component';
-import {TypeLivraisonResolverService} from '../../services/resolvers/type-livraison-resolver.service';
-import {TarifComponent} from '../../pages/admin/tarif/tarif.component';
-import {TarifResolverService} from '../../services/resolvers/tarif-resolver.service';
-import {CommandesComponent} from '../../pages/admin/commandes/commandes.component';
-import {CmmandeAdminResolverService} from '../../services/resolvers/cmmande-admin-resolver.service';
-import {AddActualiteComponent} from '../../pages/admin/actualite/add-actualite/add-actualite.component';
-import {ActualiteComponent} from '../../pages/admin/actualite/actualite.component';
-import {UpdateActualiteComponent} from '../../pages/admin/actualite/update-actualite/update-actualite.component';
-import {ListActualiteComponent} from '../../pages/admin/actualite/list-actualite/list-actualite.component';
+import {DeliveryTypeComponent} from '../../pages/admin/delivery-type/delivery-type.component';
+import {DeliveryTypeResolverService} from '../../services/resolvers/delivery-type-resolver.service';
+import {RateComponent} from '../../pages/admin/rate/rate.component';
+import {RateResolverService} from '../../services/resolvers/rate-resolver.service';
+import {OrdersComponent} from '../../pages/admin/orders/orders.component';
+import {OrderAdminResolverService} from '../../services/resolvers/order-admin-resolver.service';
+import {AddNewsComponent} from '../../pages/admin/news/add-news/add-news.component';
+import {NewsComponent} from '../../pages/admin/news/news.component';
+import {UpdateNewsComponent} from '../../pages/admin/news/update-news/update-news.component';
+import {NewsListComponent} from '../../pages/admin/news/news-list/news-list.component';
 import {HomeResolverService} from '../../services/resolvers/home-resolver.service';
-import {ActualiteListService} from '../../services/resolvers/actualite-list.service';
-import {ActualiteUpdateService} from '../../services/resolvers/actualite-update.service';
+import {NewsListResolverService} from '../../services/resolvers/news-list-resolver.service';
+import {NewsUpdateResolverService} from '../../services/resolvers/news-update-resolver.service';
 import {ErrorComponent} from '../../pages/error/error.component';
 import {WhoareweComponent} from '../../pages/whoarewe/whoarewe.component';
 import {ProductComponent} from '../../pages/admin/product/product.component';
@@ -186,24 +186,24 @@ const appRoutes: Routes = [
             pathMatch: 'full'
           }, {
             path: 'typeLivraison',
-            component: TypeLivraisonComponent,
+            component: DeliveryTypeComponent,
             data: {breadcrumbs: 'Deliverymethod'},
             resolve: {
-              valid: TypeLivraisonResolverService,
+              valid: DeliveryTypeResolverService,
             }
           }, {
             path: 'tarif',
-            component: TarifComponent,
+            component: RateComponent,
             data: {breadcrumbs: 'Rate'},
             resolve: {
-              typeLivraison_id: TarifResolverService,
+              typeLivraison_id: RateResolverService,
             }
           }, {
             path: 'commandes',
-            component: CommandesComponent,
+            component: OrdersComponent,
             data: {breadcrumbs: 'listoforders'},
             resolve: {
-              typeLivraison_id: CmmandeAdminResolverService,
+              typeLivraison_id: OrderAdminResolverService,
             }
           }, {
             path: 'color',
@@ -214,17 +214,17 @@ const appRoutes: Routes = [
             }
           }, {
             path: 'reduction',
-            component: ReductionComponent,
+            component: DiscountComponent,
             data: {breadcrumbs: 'ListReduction'},
             resolve: {
-              valid: ReductionResolverService,
+              valid: DiscountResolverService,
             }
           }, {
-            path: 'matiere',
-            component: MatiereComponent,
+            path: 'material',
+            component: MaterialComponent,
             data: {breadcrumbs: 'Listofmaterial'},
             resolve: {
-              valid: MatiereResolverService,
+              valid: MaterialResolverService,
             }
           }, {
             path: 'region',
@@ -235,28 +235,28 @@ const appRoutes: Routes = [
             }
           }, {
             path: 'ville',
-            component: VilleComponent,
+            component: CityComponent,
             data: {breadcrumbs: 'Listofcity'},
             resolve: {
-              valid: VilleResolverService,
+              valid: CityResolverService,
             }
           }, {
-            path: 'marque',
-            component: MarqueComponent,
-            data: {breadcrumbs: 'List Marque'},
+            path: 'brand',
+            component: BrandComponent,
+            data: {breadcrumbs: 'List Brand'},
           }, {
-            path: 'categorie',
-            component: CategorieComponent,
+            path: 'category',
+            component: CategoryComponent,
             data: {breadcrumbs: 'Listofcategory'},
             resolve: {
-              valid: CategorieResolverService,
+              valid: CategoryResolverService,
             }
           }, {
             path: 'sousCategorie',
-            component: SousCategorieComponent,
+            component: SubCategoryComponent,
             data: {breadcrumbs: 'Listofsubcategory'},
             resolve: {
-              valid: SousCategorieResolverService,
+              valid: SubCategoryResolverService,
             }
           }, {
             path: '',
@@ -296,7 +296,7 @@ const appRoutes: Routes = [
             ],
           }, {
             path: 'actualite',
-            component: ActualiteComponent,
+            component: NewsComponent,
             data: {breadcrumbs: 'actuality'},
             children: [
               {
@@ -305,21 +305,21 @@ const appRoutes: Routes = [
                 pathMatch: 'full'
               }, {
                 path: 'addActualite',
-                component: AddActualiteComponent,
+                component: AddNewsComponent,
                 data: {breadcrumbs: 'newactuality'},
               }, {
                 path: 'updateActualite/:id',
-                component: UpdateActualiteComponent,
+                component: UpdateNewsComponent,
                 data: {breadcrumbs: 'Modification'},
                 resolve: {
-                  actualite: ActualiteUpdateService
+                  actualite: NewsUpdateResolverService
                 }
               }, {
                 path: 'listActualites',
-                component: ListActualiteComponent,
+                component: NewsListComponent,
                 data: {breadcrumbs: 'List Actualites'},
                 resolve: {
-                  valid: ActualiteListService
+                  valid: NewsListResolverService
                 }
               },
             ],
@@ -369,13 +369,13 @@ const appRoutes: Routes = [
             pathMatch: 'full'
           }, {
             path: 'commandes',
-            component: CommandesComponent,
+            component: OrdersComponent,
             data: {breadcrumbs: 'listoforders'},
             resolve: {
-              typeLivraison_id: CmmandeAdminResolverService,
+              typeLivraison_id: OrderAdminResolverService,
             }
           }, {
-            path: 'adresses',
+            path: 'addresses',
             component: AdressesComponent,
             data: {breadcrumbs: 'addresses'},
           }, {
@@ -385,7 +385,7 @@ const appRoutes: Routes = [
           },
           {
             path: 'infoP',
-            component: InformationPersonnelleComponent,
+            component: PersonalInformationComponent,
             data: {breadcrumbs: 'AccountInformation'},
           }
         ]

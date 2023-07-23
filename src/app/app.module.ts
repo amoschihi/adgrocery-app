@@ -1,9 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatarialModuleModule} from './matarial-module/matarial-module.module';
+import {MaterialModuleModule} from './material-module/material-module.module';
 import {MainNavComponent} from './layout/main-nav/main-nav.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MenuComponent} from './layout/menu/menu.component';
@@ -27,40 +27,37 @@ import {ErrorsMessagesService} from './services/errors-messages.service';
 import {FooterComponent} from './layout/footer/footer.component';
 import {AgmCoreModule} from '@agm/core';
 import {AccountSettingsComponent} from './pages/accountsettings/account-settings/account-settings.component';
-import {AdressesComponent} from './pages/accountsettings/adresses/adresses.component';
-import {InformationPersonnelleComponent} from './pages/accountsettings/information-personnelle/information-personnelle.component';
+import {AdressesComponent} from './pages/accountsettings/addresses/adresses.component';
+import {PersonalInformationComponent} from './pages/accountsettings/personal-information/personal-information.component';
 import {CommandsComponent} from './pages/accountsettings/commands/commands.component';
-import {BillingComponent} from './pages/accountsettings/adresses/billing/billing.component';
-import {ShippingComponent} from './pages/accountsettings/adresses/shipping/shipping.component';
+import {BillingComponent} from './pages/accountsettings/addresses/billing/billing.component';
+import {ShippingComponent} from './pages/accountsettings/addresses/shipping/shipping.component';
 import {RegionComponent} from './pages/admin/region/region.component';
 import {MenuAdminComponent} from './pages/admin/menu-admin/menu-admin.component';
-import {VilleComponent} from './pages/admin/ville/ville.component';
+import {CityComponent} from './pages/admin/city/city.component';
 import {DashboardComponent} from './pages/accountsettings/dashboard/dashboard.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ContactComponent} from './pages/contact/contact.component';
-import {MarqueComponent} from './pages/admin/marque/marque.component';
-import {CategorieComponent} from './pages/admin/categorie/categorie.component';
-import {SousCategorieComponent} from './pages/admin/sous-categorie/sous-categorie.component';
+import {BrandComponent} from './pages/admin/brand/brand.component';
+import {CategoryComponent} from './pages/admin/category/category.component';
+import {SubCategoryComponent} from './pages/admin/sub-category/sub-category.component';
 import {ColorComponent} from './pages/admin/color/color.component';
 import {HomeComponent} from './pages/home/home.component';
 import {SlickCarouselModule} from './libs/slick-carousel/slick-carousel/slick-carousel.module';
 import {ScrollbarModule} from 'ngx-scrollbar';
 import {NgxPaginationModule} from 'ngx-pagination';
-import {MatiereComponent} from './pages/admin/matiere/matiere.component';
+import {MaterialComponent} from './pages/admin/material/material.component';
 import {SwiperModule} from 'ngx-swiper-wrapper';
-import {ProductsResolverService} from './services/resolvers/Products-resolver.service';
-import {AdresseService} from './services/adresse.service';
-import {Categorie} from './models/categorie';
-import {CategorieService} from './services/categorie.service';
-import {SousCategorieService} from './services/sous-categorie.service';
+import {AddressService} from './services/address.service';
+import {CategoryService} from './services/category.service';
+import {SubCategoryService} from './services/sub-category.service';
 import {ColorService} from './services/color.service';
 import {ContactService} from './services/contact.service';
-import {MarqueService} from './services/marque.service';
-import {MatiereService} from './services/matiere.service';
-import {ProductService} from './services/Product.service';
+import {BrandService} from './services/brand.service';
+import {MaterialService} from './services/material.service';
 import {ProfileService} from './services/profile.service';
 import {RegionService} from './services/region.service';
-import {VilleService} from './services/ville.service';
+import {CityService} from './services/city.service';
 import {InfoSiteComponent} from './pages/admin/info-site/info-site.component';
 import {InfoSiteService} from './services/info-site.service';
 import {RegionResolverService} from './services/resolvers/region-resolver.service';
@@ -74,26 +71,25 @@ import {WishlistComponent} from './pages/wishlist/wishlist.component';
 import {CompareComponent} from './pages/compare/compare.component';
 import {ShoppingCartComponent} from './pages/shopping-cart/shopping-cart.component';
 import {ErrorComponent} from './pages/error/error.component';
-import {ReductionComponent} from './pages/admin/reduction/reduction.component';
+import {DiscountComponent} from './pages/admin/discount/discount.component';
 import {NgxPayPalModule} from 'ngx-paypal';
 import {CheckoutComponent} from './pages/checkout/checkout.component';
-import {TypeLivraisonComponent} from './pages/admin/type-livraison/type-livraison.component';
-import {TarifComponent} from './pages/admin/tarif/tarif.component';
-import {ListProductsComponent} from './pages/admin/Product/list-Products/list-Products.component';
-import {AuthentificationInterceptorService} from './services/authentification-interceptor.service';
-import {CommandesComponent} from './pages/admin/commandes/commandes.component';
-import {NewsCommandesComponent} from './pages/admin/commandes/news-commandes/news-commandes.component';
-import {ShippedCommandesComponent} from './pages/admin/commandes/shipped-commandes/shipped-commandes.component';
-import {DeliveredCommandesComponent} from './pages/admin/commandes/delivered-commandes/delivered-commandes.component';
-import {ColsedCommandesComponent} from './pages/admin/commandes/colsed-commandes/colsed-commandes.component';
-import {ActualiteComponent} from './pages/admin/actualite/actualite.component';
-import {AddActualiteComponent} from './pages/admin/actualite/add-actualite/add-actualite.component';
-import {UpdateActualiteComponent} from './pages/admin/actualite/update-actualite/update-actualite.component';
-import {ListActualiteComponent} from './pages/admin/actualite/list-actualite/list-actualite.component';
+import {DeliveryTypeComponent} from './pages/admin/delivery-type/delivery-type.component';
+import {RateComponent} from './pages/admin/rate/rate.component';
+import {AuthenticationInterceptorService} from './services/authentication-interceptor.service';
+import {OrdersComponent} from './pages/admin/orders/orders.component';
+import {NewsOrdersComponent} from './pages/admin/orders/news-orders/news-orders.component';
+import {ShippedOrdersComponent} from './pages/admin/orders/shipped-orders/shipped-orders.component';
+import {DeliveredOrdersComponent} from './pages/admin/orders/delivered-orders/delivered-orders.component';
+import {ClosedOrdersComponent} from './pages/admin/orders/closed-orders/closed-orders.component';
+import {NewsComponent} from './pages/admin/news/news.component';
+import {AddNewsComponent} from './pages/admin/news/add-news/add-news.component';
+import {UpdateNewsComponent} from './pages/admin/news/update-news/update-news.component';
+import {NewsListComponent} from './pages/admin/news/news-list/news-list.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {WhoareweComponent} from './pages/whoarewe/whoarewe.component';
-import {NewArrivalesComponent} from './pages/Products/new-arrivales/new-arrivales.component';
+import {NewArrivalsComponent} from './pages/products/new-arrivals/new-arrivals.component';
 import {OnSaleComponent} from './pages/Products/on-sale/on-sale.component';
 import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 import {ProductComponent} from './pages/admin/product/product.component';
@@ -101,6 +97,9 @@ import {AddProductComponent} from './pages/admin/product/add-product/add-product
 import {UpdateProductComponent} from './pages/admin/product/update-product/update-product.component';
 import {ProductsComponent} from './pages/products/products.component';
 import {DetailProductComponent} from './pages/products/detail-product/detail-product.component';
+import {ListProductsComponent} from './pages/admin/product/list-products/list-products.component';
+import {ProductService} from './services/product.service';
+import {ProductsResolverService} from './services/resolvers/products-resolver.service';
 
 export function getInfoSite(infoSiteService: InfoSiteService) {
   return () => infoSiteService.getInfoSite();
@@ -113,15 +112,13 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export function getAuthServiceConfigs() {
-  const config = new AuthServiceConfig([{
+  return new AuthServiceConfig([{
     id: FacebookLoginProvider.PROVIDER_ID,
     provider: new FacebookLoginProvider(environment.FacebookClientId)
   }, {
     id: GoogleLoginProvider.PROVIDER_ID,
     provider: new GoogleLoginProvider(environment.GoogleClientId)
   }]);
-
-  return config;
 }
 
 @NgModule({
@@ -140,25 +137,25 @@ export function getAuthServiceConfigs() {
     FooterComponent,
     AccountSettingsComponent,
     AdressesComponent,
-    InformationPersonnelleComponent,
+    PersonalInformationComponent,
     CommandsComponent,
     BillingComponent,
     ShippingComponent,
     RegionComponent,
     MenuAdminComponent,
-    VilleComponent,
+    CityComponent,
     DashboardComponent,
     ContactComponent,
-    MarqueComponent,
-    CategorieComponent,
-    SousCategorieComponent,
+    BrandComponent,
+    CategoryComponent,
+    SubCategoryComponent,
     ProductComponent,
     AddProductComponent,
     UpdateProductComponent,
     ColorComponent,
     HomeComponent,
     ProductsComponent,
-    MatiereComponent,
+    MaterialComponent,
     DetailProductComponent,
     InfoSiteComponent,
     MainComponent,
@@ -166,22 +163,22 @@ export function getAuthServiceConfigs() {
     CompareComponent,
     ShoppingCartComponent,
     ErrorComponent,
-    ReductionComponent,
+    DiscountComponent,
     CheckoutComponent,
-    TypeLivraisonComponent,
-    TarifComponent,
+    DeliveryTypeComponent,
+    RateComponent,
     ListProductsComponent,
-    CommandesComponent,
-    NewsCommandesComponent,
-    ShippedCommandesComponent,
-    DeliveredCommandesComponent,
-    ColsedCommandesComponent,
-    ActualiteComponent,
-    AddActualiteComponent,
-    UpdateActualiteComponent,
-    ListActualiteComponent,
+    OrdersComponent,
+    NewsOrdersComponent,
+    ShippedOrdersComponent,
+    DeliveredOrdersComponent,
+    ClosedOrdersComponent,
+    NewsComponent,
+    AddNewsComponent,
+    UpdateNewsComponent,
+    NewsListComponent,
     WhoareweComponent,
-    NewArrivalesComponent,
+    NewArrivalsComponent,
     OnSaleComponent
   ],
   imports: [
@@ -189,7 +186,7 @@ export function getAuthServiceConfigs() {
     BrowserModule,
     BrowserAnimationsModule,
     LayoutModule,
-    MatarialModuleModule,
+    MaterialModuleModule,
     MesRoutesModule,
     FormsModule,
     HttpClientModule,
@@ -216,17 +213,17 @@ export function getAuthServiceConfigs() {
   ],
   providers: [
     UserServicesService,
-    AdresseService,
-    CategorieService,
-    SousCategorieService,
+    AddressService,
+    CategoryService,
+    SubCategoryService,
     ColorService,
     ContactService,
-    MarqueService,
-    MatiereService,
+    BrandService,
+    MaterialService,
     ProductService,
     ProfileService,
     RegionService,
-    VilleService,
+    CityService,
     TokenService,
     AuthentificationService,
     BeforeLoginService,
@@ -237,7 +234,7 @@ export function getAuthServiceConfigs() {
     ProductsResolverService,
     InfoSiteService,
     RegionResolverService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthentificationInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptorService, multi: true},
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs

@@ -1,16 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AppComponent} from '../../app.component';
-import {ProductPaginate} from '../../models/product-paginate';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LineOrder} from '../../models/line-order';
-import {Product} from '../../models/product';
 import {ProductService} from '../../services/product.service';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {environment} from '../../../environments/environment';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 import {AuthentificationService} from '../../services/authentification.service';
-import {Commande} from '../../models/commande';
-import {Statuts} from '../../models/statuts.enum';
+import {Order} from '../../models/order';
 import {CheckoutService} from '../../services/checkout.service';
 import {Article} from '../../models/article';
 import {Socket} from 'ngx-socket-io';
@@ -22,45 +19,45 @@ import {Socket} from 'ngx-socket-io';
 })
 export class ShoppingCartComponent implements OnInit {
 
-  displayedColumns: string[] = ['produit', 'nom', 'prix', 'Quantite', 'subTotal', 'actionsColumn'];
+  displayedColumns: string[] = ['product', 'nom', 'price', 'Quantity', 'subTotal', 'actionsColumn'];
   public dataSource = new MatTableDataSource<LineOrder>([]);
   url: string = environment.urlServeur2;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   login = false;
-  commande: Commande = new Commande();
+  order: Order = new Order();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private socket: Socket,
     public appComponent: AppComponent,
-    private produitService: ProductService,
+    private productService: ProductService,
     private checkoutService: CheckoutService,
-    private authentificationService: AuthentificationService,
+    private authenticationService: AuthentificationService,
     private shoppingCartService: ShoppingCartService) {
   }
 
 
   ngOnInit() {
     this.socket
-      .fromEvent<any>('quantiteSetNotification')
+      .fromEvent<any>('quantitySetNotification')
       .map(data => data).subscribe(value => {
       let articles: Article[] = [];
       articles = [...JSON.parse(value)];
 
       articles.forEach(value0 => {
-        const tmp = this.dataSource.data.find(value1 => value1.produit.article.id === value0.id);
+        const tmp = this.dataSource.data.find(value1 => value1.product.article.id === value0.id);
         if (tmp) {
-          tmp.produit.article.stock = value0.stock;
+          tmp.product.article.stock = value0.stock;
         }
       });
-      this.shoppingCartService.setproduitPaginator(this.dataSource.data);
+      this.shoppingCartService.setProductPaginator(this.dataSource.data);
 
     });
-    this.shoppingCartService.produitPaginator.subscribe(value => {
+    this.shoppingCartService.productPaginator.subscribe(value => {
       this.dataSource.data = value;
     });
-    this.authentificationService.authStatus.subscribe(value => this.login = value);
+    this.authenticationService.authStatus.subscribe(value => this.login = value);
   }
 
   deleteAll() {
@@ -72,64 +69,64 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   removeQu(ele: LineOrder) {
-    if (ele.quantite > 1) {
-      ele.quantite--;
-      this.shoppingCartService.removeQuantitetShoppingCart(ele);
+    if (ele.quantity > 1) {
+      ele.quantity--;
+      this.shoppingCartService.removeQuantityShoppingCart(ele);
     }
   }
 
 
   addQu(ele: LineOrder) {
-    if (ele.quantite < ele.produit.article.stock) {
-      ele.quantite++;
-      this.shoppingCartService.addQuantitetShoppingCart(ele);
+    if (ele.quantity < ele.product.article.stock) {
+      ele.quantity++;
+      this.shoppingCartService.addQuantityShoppingCart(ele);
     }
   }
 
-  getTotale(): number {
-    this.commande.total = this.dataSource.data
-      .map(value => (!value.produit.reduction) ?
-        value.produit.prix * value.quantite :
-        (value.produit.prix - value.produit.prix * (value.produit.reduction.valeurPourcentage / 100)) * value.quantite)
+  getTotal(): number {
+    this.order.total = this.dataSource.data
+      .map(value => (!value.product.discount) ?
+        value.product.prix * value.quantity :
+        (value.product.prix - value.product.prix * (value.product.discount.percentageValue / 100)) * value.quantity)
       .reduce((previousValue, currentValue) => previousValue + currentValue);
-    return this.commande.total;
+    return this.order.total;
   }
 
   getTVA(): number {
     return this.dataSource.data
-      .map(value => (value.produit.tva) ? value.produit.tva * value.quantite : 0)
+      .map(value => (value.product.tva) ? value.product.tva * value.quantity : 0)
       .reduce((previousValue, currentValue) => previousValue + currentValue);
   }
 
   calcSubTotal(element: LineOrder) {
-    element.sousTotal = element.produit.prix * element.quantite;
-    return element.sousTotal;
+    element.subTotal = element.product.prix * element.quantity;
+    return element.subTotal;
   }
 
   calcSubTotalWithReduction(element: LineOrder) {
-    element.sousTotal = (element.produit.prix - element.produit.prix *
-      (element.produit.reduction.valeurPourcentage / 100)) * element.quantite;
-    return element.sousTotal;
+    element.subTotal = (element.product.prix - element.product.prix *
+      (element.product.discount.percentageValue / 100)) * element.quantity;
+    return element.subTotal;
   }
 
-  getLigneCommandes(): LineOrder[] {
+  getLineOrder(): LineOrder[] {
 
     return this.dataSource.data.map(value => {
       const ele = new LineOrder();
       ele.id = value.id;
-      ele.quantite = value.quantite;
-      ele.sousTotal = value.sousTotal;
-      ele.produit_id = value.produit_id;
-      if (value.produit.article.stock <= 0) {
-        ele.quantite = 0;
+      ele.quantity = value.quantity;
+      ele.subTotal = value.subTotal;
+      ele.product_id = value.product_id;
+      if (value.product.article.stock <= 0) {
+        ele.quantity = 0;
       }
       return ele;
     });
   }
 
   checkOut() {
-    this.commande.ligneCommandes = this.getLigneCommandes();
-    this.checkoutService.setCommande(this.commande);
+    this.order.lineOrders = this.getLineOrder();
+    this.checkoutService.setOrder(this.order);
     this.router.navigate(['/main/checkout']);
   }
 }

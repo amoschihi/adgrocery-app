@@ -13,18 +13,18 @@ export class CompareService {
 
   private url = environment.urlServeur;
 
-  private produitPaginatorSource = new BehaviorSubject<ProductPaginate>(null);
+  private productPaginatorSource = new BehaviorSubject<ProductPaginate>(null);
   private _compareIsModified: boolean;
 
-  produitPaginator = this.produitPaginatorSource.asObservable();
+  productPaginator = this.productPaginatorSource.asObservable();
 
   constructor(private http: HttpClient,
               private tokenService: TokenService,
               private dataService: DataService) {
   }
 
-  setproduitPaginator(data: ProductPaginate) {
-    this.produitPaginatorSource.next(data);
+  setProductPaginator(data: ProductPaginate) {
+    this.productPaginatorSource.next(data);
   }
 
   public getByListId(
@@ -33,8 +33,8 @@ export class CompareService {
     perPage = 12,
     id: number[]): Observable<ProductPaginate> {
     return new Observable(observer => {
-      if (!refresh && this.produitPaginatorSource.getValue()) {
-        observer.next(this.produitPaginatorSource.getValue());
+      if (!refresh && this.productPaginatorSource.getValue()) {
+        observer.next(this.productPaginatorSource.getValue());
         return observer.complete();
       }
       const params = new HttpParams()
@@ -43,8 +43,8 @@ export class CompareService {
         .set('id', id.join(', '));
       this.http.get<ProductPaginate>(this.url + '/GAPRODBLID', {params: params}).subscribe(value => {
         this.dataService.setCompares(value.total);
-        this.produitPaginatorSource.next(value);
-        observer.next(this.produitPaginatorSource.getValue());
+        this.productPaginatorSource.next(value);
+        observer.next(this.productPaginatorSource.getValue());
         observer.complete();
       });
     });
@@ -55,8 +55,8 @@ export class CompareService {
     page = 1,
     perPage = 12): Observable<ProductPaginate> {
     return new Observable(observer => {
-      if (!refresh && this.produitPaginatorSource.getValue()) {
-        observer.next(this.produitPaginatorSource.getValue());
+      if (!refresh && this.productPaginatorSource.getValue()) {
+        observer.next(this.productPaginatorSource.getValue());
         return observer.complete();
       }
       const params = new HttpParams()
@@ -64,8 +64,8 @@ export class CompareService {
         .set('perPage', perPage.toString());
       this.http.get<ProductPaginate>(this.url + '/GAPCOM', {params: params}).subscribe(value => {
         this.dataService.setCompares(value.total);
-        this.produitPaginatorSource.next(value);
-        observer.next(this.produitPaginatorSource.getValue());
+        this.productPaginatorSource.next(value);
+        observer.next(this.productPaginatorSource.getValue());
         observer.complete();
       });
     });
@@ -146,9 +146,9 @@ export class CompareService {
   removeItemFromCompareAfterLogin(id: number) {
     this.delete(id).subscribe(value => {
       this.dataService.removeCompare();
-      const PP = this.produitPaginatorSource.getValue();
+      const PP = this.productPaginatorSource.getValue();
       PP.data = PP.data.filter(value2 => value2.id !== id);
-      this.produitPaginatorSource.next(PP);
+      this.productPaginatorSource.next(PP);
     });
   }
 
@@ -156,9 +156,9 @@ export class CompareService {
     let arr = this.getCompare();
     arr = arr.filter(value => value !== id);
     localStorage.setItem('compares', JSON.stringify(arr));
-    const PP = this.produitPaginatorSource.getValue();
+    const PP = this.productPaginatorSource.getValue();
     PP.data = PP.data.filter(value2 => value2.id !== id);
-    this.produitPaginatorSource.next(PP);
+    this.productPaginatorSource.next(PP);
     this.dataService.removeCompare();
   }
 
@@ -166,17 +166,17 @@ export class CompareService {
   clearCompareAfterLogin() {
     this.deleteAll().subscribe(value => {
       this.dataService.setCompares(0);
-      const PP = this.produitPaginatorSource.getValue();
+      const PP = this.productPaginatorSource.getValue();
       PP.data = [];
-      this.produitPaginatorSource.next(PP);
+      this.productPaginatorSource.next(PP);
     });
   }
 
   clearCompareBeforeLogin() {
     localStorage.setItem('compares', JSON.stringify([]));
-    const PP = this.produitPaginatorSource.getValue();
+    const PP = this.productPaginatorSource.getValue();
     PP.data = [];
-    this.produitPaginatorSource.next(PP);
+    this.productPaginatorSource.next(PP);
     this.dataService.setCompares(0);
   }
 

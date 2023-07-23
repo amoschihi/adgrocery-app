@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +13,7 @@ export class TokenService {
     signup: this.url + '/signup'
   };
 
-  constructor(private router: Router) {
+  constructor() {
   }
 
   public handle(data) {
@@ -66,7 +64,7 @@ export class TokenService {
         return false;
       }
       if (payload) {
-        return (Object.values(this.iss).indexOf(payload.iss) > -1 ? true : false);
+        return (Object.values(this.iss).indexOf(payload.iss) > -1);
       }
     }
     return false;
@@ -74,11 +72,7 @@ export class TokenService {
 
   public isValidAdmin() {
 
-    if (this.isValid() && this.getRole() === 'admin') {
-      return true;
-    } else {
-      return false;
-    }
+    return this.isValid() && this.getRole() === 'admin';
   }
 
   payload(token) {

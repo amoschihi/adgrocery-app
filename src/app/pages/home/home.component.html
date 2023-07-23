@@ -2,8 +2,8 @@
   <swiper [config]="config">
     <div class="swiper-items" *ngFor="let act of actualies"
          [ngStyle]="{'background-image':'url('+url.concat(act.image.src)+')'}">
-      <h1 class="title">{{act.titre}}</h1>
-      <h1 class="subtitle">{{act.sousTitre}}</h1>
+      <h1 class="title">{{act.title}}</h1>
+      <h1 class="subtitle">{{act.subTitle}}</h1>
     </div>
   </swiper>
   <div class="swiper-pagination"></div>
@@ -18,7 +18,7 @@
         </ng-template>
         <ng-template style="min-height: 200px" matTabContent>
           <div style="min-height: 200px">
-            <app-new-arrivales></app-new-arrivales>
+            <app-new-arrivals></app-new-arrivals>
           </div>
         </ng-template>
       </mat-tab>

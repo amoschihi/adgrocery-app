@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
-import {Product} from '../../models/product';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ReductionService} from '../reduction.service';
+import {DiscountService} from '../discount.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductSettingResolverService implements Resolve<boolean> {
 
-  constructor(private reductionService: ReductionService) {
+  constructor(private reductionService: DiscountService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

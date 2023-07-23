@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/user';
-import {HttpClient} from '@angular/common/http';
 import {UserServicesService} from '../../services/user-services.service';
 import {TokenService} from '../../services/token.service';
 import {Router} from '@angular/router';
-import {AbstractControl, FormControl, ValidatorFn, Validators} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {ErrorsMessagesService} from '../../services/errors-messages.service';
 import {ModelErrors} from '../../models/model-errors';
 import {Observable} from 'rxjs';
@@ -21,7 +20,7 @@ export class SingupComponent extends ModelErrors implements OnInit {
   public myuser: User = new User();
   submitted = false;
   hide = null;
-  erreur = [];
+  error = [];
   reCaptchaKey = environment.reCaptchaKey;
 
 
@@ -29,9 +28,9 @@ export class SingupComponent extends ModelErrors implements OnInit {
               private tokenService: TokenService,
               private route: Router,
               private authService: AuthentificationService,
-              erreursMessagesService: ErrorsMessagesService,
-              private errorsNotifService: ErrorsNotifService,) {
-    super(erreursMessagesService);
+              errorsMessagesService: ErrorsMessagesService,
+              private errorsNotifService: ErrorsNotifService) {
+    super(errorsMessagesService);
   }
 
 
@@ -48,9 +47,9 @@ export class SingupComponent extends ModelErrors implements OnInit {
       this.userService.signup(this.myuser).subscribe(data => {
         this.handleResponse(data);
         observer.next(this.errorsNotifService.handleResponse2('', 'Success'));
-      }, erreur => {
-        this.handleErreur(erreur);
-        observer.error(this.errorsNotifService.handleErreur2('', 'Error'));
+      }, error => {
+        this.handleError(error);
+        observer.error(this.errorsNotifService.handleError2('', 'Error'));
       });
     });
 
@@ -63,7 +62,7 @@ export class SingupComponent extends ModelErrors implements OnInit {
     this.route.navigateByUrl('/main/accountSettingsComponent');
   }
 
-  private handleErreur(erreur) {
-    this.erreur = erreur.error.errors;
+  private handleError(error) {
+    this.error = error.error.errors;
   }
 }

@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ScreenService} from '../../../services/screen.service';
-import {ProductService} from '../../../services/Product.service';
 import {WishlistService} from '../../../services/wishlist.service';
-import {ProductPaginate} from '../../../models/Product-paginate';
+import {ProductPaginate} from '../../../models/product-paginate';
 import {LineOrder} from '../../../models/line-order';
-import {Product} from '../../../models/Product';
+import {Product} from '../../../models/product';
 import {environment} from '../../../../environments/environment';
 import {ShoppingCartService} from '../../../services/shopping-cart.service';
 import {CompareService} from '../../../services/compare.service';
+import {ProductService} from '../../../services/product.service';
 
 @Component({
   selector: 'app-on-sale',
@@ -17,12 +17,12 @@ import {CompareService} from '../../../services/compare.service';
 export class OnSaleComponent implements OnInit {
 
 
-  ProductPaginate: ProductPaginate = new ProductPaginate();
+  productPaginate: ProductPaginate = new ProductPaginate();
   products: Product[];
   url: string = environment.urlServeur2;
   load = false;
 
-  constructor(private produitService: ProduitService,
+  constructor(private productService: ProductService,
               private shoppingCartService: ShoppingCartService,
               private screenService: ScreenService,
               private compareService: CompareService,
@@ -32,71 +32,71 @@ export class OnSaleComponent implements OnInit {
   ngOnInit() {
     this.screenService.isLargPc.subscribe(value => {
       if (value) {
-        this.produitPaginate.per_page = 6;
-        if (this.produits.length < 6 && this.produitPaginate.total >= 6) {
-          this.produitService.getOnSale(1, this.produitPaginate.per_page, true).subscribe(value1 => {
-            this.produits = value1.data;
-            this.produitPaginate = value1;
+        this.productPaginate.per_page = 6;
+        if (this.products.length < 6 && this.productPaginate.total >= 6) {
+          this.productService.getOnSale(1, this.productPaginate.per_page, true).subscribe(value1 => {
+            this.products = value1.data;
+            this.productPaginate = value1;
           });
         }
       }
     });
     this.screenService.isSmallPc.subscribe(value => {
       if (value) {
-        this.produitPaginate.per_page = 5;
-        if (this.produits.length > 5) {
-          this.produits = this.produits.splice(0, 5);
+        this.productPaginate.per_page = 5;
+        if (this.products.length > 5) {
+          this.products = this.products.splice(0, 5);
         }
-        if (this.produits.length < 5 && this.produitPaginate.total >= 5) {
-          this.produitService.getOnSale(1, this.produitPaginate.per_page, true).subscribe(value1 => {
-            this.produits = value1.data;
-            this.produitPaginate = value1;
+        if (this.products.length < 5 && this.productPaginate.total >= 5) {
+          this.productService.getOnSale(1, this.productPaginate.per_page, true).subscribe(value1 => {
+            this.products = value1.data;
+            this.productPaginate = value1;
           });
         }
       }
     });
     this.screenService.isPhone.subscribe(value => {
       if (value) {
-        this.produitPaginate.per_page = 1;
-        if (this.produits.length > 1) {
-          this.produits = this.produits.splice(0, 1);
+        this.productPaginate.per_page = 1;
+        if (this.products.length > 1) {
+          this.products = this.products.splice(0, 1);
         }
       }
     });
     this.screenService.isSmallTablet.subscribe(value => {
       if (value) {
-        this.produitPaginate.per_page = 2;
-        if (this.produits.length > 2) {
-          this.produits = this.produits.splice(0, 4);
+        this.productPaginate.per_page = 2;
+        if (this.products.length > 2) {
+          this.products = this.products.splice(0, 4);
         }
-        if (this.produits.length < 2 && this.produitPaginate.total >= 2) {
-          this.produitService.getOnSale(1, this.produitPaginate.per_page, true).subscribe(value1 => {
-            this.produits = value1.data;
-            this.produitPaginate = value1;
+        if (this.products.length < 2 && this.productPaginate.total >= 2) {
+          this.productService.getOnSale(1, this.productPaginate.per_page, true).subscribe(value1 => {
+            this.products = value1.data;
+            this.productPaginate = value1;
           });
         }
       }
     });
     this.screenService.isTablet.subscribe(value => {
       if (value) {
-        this.produitPaginate.per_page = 4;
-        if (this.produits.length > 4) {
-          this.produits = this.produits.splice(0, 4);
+        this.productPaginate.per_page = 4;
+        if (this.products.length > 4) {
+          this.products = this.products.splice(0, 4);
         }
-        if (this.produits.length < 4 && this.produitPaginate.total >= 4) {
-          this.produitService.getOnSale(1, this.produitPaginate.per_page, true).subscribe(value1 => {
-            this.produits = value1.data;
-            this.produitPaginate = value1;
+        if (this.products.length < 4 && this.productPaginate.total >= 4) {
+          this.productService.getOnSale(1, this.productPaginate.per_page, true).subscribe(value1 => {
+            this.products = value1.data;
+            this.productPaginate = value1;
           });
         }
       }
     });
-    this.produitService.load.subscribe(value => {
+    this.productService.load.subscribe(value => {
       this.load = value;
     });
-    this.produitService.getOnSale(1, this.produitPaginate.per_page).subscribe(value => {
-      this.produits = value.data;
-      this.produitPaginate = value;
+    this.productService.getOnSale(1, this.productPaginate.per_page).subscribe(value => {
+      this.products = value.data;
+      this.productPaginate = value;
     });
   }
 
@@ -104,11 +104,11 @@ export class OnSaleComponent implements OnInit {
     this.compareService.addToCompare(id);
   }
 
-  addToShoppingCart(pro: Produit) {
+  addToShoppingCart(pro: Product) {
     const LC = new LineOrder();
-    LC.produit_id = pro.id;
-    LC.quantite = 1;
-    LC.produit = pro;
+    LC.product_id = pro.id;
+    LC.quantity = 1;
+    LC.product = pro;
     this.shoppingCartService.addShoppingCart(LC);
   }
 
@@ -118,17 +118,17 @@ export class OnSaleComponent implements OnInit {
   }
 
   prev() {
-    this.produitService.getOnSale(1, this.produitPaginate.per_page, true, this.produitPaginate.prev_page_url).subscribe(value => {
-      this.produits = value.data;
-      this.produitPaginate = value;
+    this.productService.getOnSale(1, this.productPaginate.per_page, true, this.productPaginate.prev_page_url).subscribe(value => {
+      this.products = value.data;
+      this.productPaginate = value;
 
     });
   }
 
   next() {
-    this.produitService.getOnSale(1, this.produitPaginate.per_page, true, this.produitPaginate.next_page_url).subscribe(value => {
-      this.produits = value.data;
-      this.produitPaginate = value;
+    this.productService.getOnSale(1, this.productPaginate.per_page, true, this.productPaginate.next_page_url).subscribe(value => {
+      this.products = value.data;
+      this.productPaginate = value;
     });
   }
 

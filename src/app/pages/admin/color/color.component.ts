@@ -64,7 +64,7 @@ export class ColorComponent implements OnInit {
         this.handleResponse('Success');
       }, error1 => {
         console.log(error1);
-        this.handleErreur('Error');
+        this.handleError('Error');
       });
       this.addColor = false;
     } else {
@@ -76,7 +76,7 @@ export class ColorComponent implements OnInit {
           this.colorService.get(true);
         }, error1 => {
           console.log(error1);
-          this.handleErreur('Error');
+          this.handleError('Error');
         });
       } else {
         this.cancelEdit(key);
@@ -98,7 +98,7 @@ export class ColorComponent implements OnInit {
               this.colorService.setColors(this.dataSource);
               this.handleResponse('Success');
             }, error1 => {
-              this.handleErreur('Erreur');
+              this.handleError('Error');
               console.log(error1);
             });
           }, bold: false
@@ -113,10 +113,9 @@ export class ColorComponent implements OnInit {
     this.notify.success(msg, {position: 'rightTop'});
   }
 
-  private handleErreur(msg: string) {
+  private handleError(msg: string) {
     this.notify.clear();
     this.notify.error(msg, {position: 'rightTop'});
-    // this.erreur = erreur.error.error;
   }
 
   add() {

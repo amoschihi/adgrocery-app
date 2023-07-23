@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Color} from '../../models/color';
 import {Product} from '../../models/product';
 import {environment} from '../../../environments/environment';
 import {ProductPaginate} from '../../models/product-paginate';
 import {ActivatedRoute} from '@angular/router';
-import {ProductService} from '../../services/product.service';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {AppComponent} from '../../app.component';
 import {LineOrder} from '../../models/line-order';
@@ -12,7 +10,6 @@ import {TokenService} from '../../services/token.service';
 import {WishlistService} from '../../services/wishlist.service';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 import {Socket} from 'ngx-socket-io';
-import {forEach} from '@angular/router/src/utils/collection';
 import {Article} from '../../models/article';
 
 @Component({
@@ -21,12 +18,12 @@ import {Article} from '../../models/article';
   styleUrls: ['./wishlist.component.css']
 })
 export class WishlistComponent implements OnInit {
-  displayedColumns: string[] = ['produit', 'nom', 'prix', 'availability', 'Quantite', 'actionsColumn'];
+  displayedColumns: string[] = ['product', 'nom', 'price', 'availability', 'Quantity', 'actionsColumn'];
   public dataSource = new MatTableDataSource<Product>([]);
-  produitPaginate: ProductPaginate;
+  productPaginate: ProductPaginate;
   url: string = environment.urlServeur2;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  listQuantite: { [id: string]: number; } = {};
+  listQuantity: { [id: string]: number; } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -46,37 +43,37 @@ export class WishlistComponent implements OnInit {
       console.log('u1 : ', value);
     });
     this.socket
-      .fromEvent<any>('quantiteSetNotification')
+      .fromEvent<any>('quantitySetNotification')
       .map(data => data).subscribe(value => {
       let articles: Article[] = [];
       articles = [...JSON.parse(value)];
       console.log(articles);
-      console.log(this.produitPaginate);
+      console.log(this.productPaginate);
       articles.forEach(value0 => {
-        const tmp = this.produitPaginate.data.find(value1 => value1.article.id === value0.id);
+        const tmp = this.productPaginate.data.find(value1 => value1.article.id === value0.id);
         if (tmp) {
           tmp.article.stock = value0.stock;
         }
       });
-      this.wishlistService.setproduitPaginator(this.produitPaginate);
+      this.wishlistService.setProductPaginator(this.productPaginate);
 
     });
-    /* const produitPaginate = this.produitPaginate;
-     this.socket.on('quantiteSetNotification', function (msg) {
+    /* const productPaginate = this.productPaginate;
+     this.socket.on('quantitySetNotification', function (msg) {
        let articles: Article[] = [];
        articles = [...JSON.parse(msg)];
        console.log(articles);
-       console.log(produitPaginate);
+       console.log(productPaginate);
        /!* articles.forEach(value => {
-          const tmp = this.produitPaginate.data.find(value1 => value1.article.id = value.id);
+          const tmp = this.productPaginate.data.find(value1 => value1.article.id = value.id);
           if (tmp) {
             tmp.article.stock = value.stock;
           }
         });
-        this.wishlistService.setproduitPaginator(this.produitPaginate);*!/
+        this.wishlistService.setproduitPaginator(this.productPaginate);*!/
      });*/
-    this.wishlistService.produitPaginator.subscribe(value => {
-      this.produitPaginate = value;
+    this.wishlistService.productPaginator.subscribe(value => {
+      this.productPaginate = value;
       this.dataSource.data = value.data;
     });
   }
@@ -111,38 +108,38 @@ export class WishlistComponent implements OnInit {
   }
 
   removeQu(ele: Product) {
-    if (!ele.ligneCommande) {
-      ele.ligneCommande = new LineOrder();
-      ele.ligneCommande.quantite = 1;
+    if (!ele.lineOrder) {
+      ele.lineOrder = new LineOrder();
+      ele.lineOrder.quantity = 1;
     }
-    if (ele.ligneCommande.quantite > 1) {
-      ele.ligneCommande.quantite--;
+    if (ele.lineOrder.quantity > 1) {
+      ele.lineOrder.quantity--;
     }
   }
 
 
   addQu(ele: Product) {
-    if (!ele.ligneCommande) {
-      ele.ligneCommande = new LineOrder();
-      ele.ligneCommande.quantite = 1;
+    if (!ele.lineOrder) {
+      ele.lineOrder = new LineOrder();
+      ele.lineOrder.quantity = 1;
     }
-    if (ele.ligneCommande.quantite < ele.article.stock) {
-      ele.ligneCommande.quantite++;
+    if (ele.lineOrder.quantity < ele.article.stock) {
+      ele.lineOrder.quantity++;
     }
   }
 
   addToShoppingCart(pro: Product) {
     const LC = new LineOrder();
-    if (pro.ligneCommande) {
-      LC.quantite = pro.ligneCommande.quantite;
-      pro.ligneCommande = null;
+    if (pro.lineOrder) {
+      LC.quantity = pro.lineOrder.quantity;
+      pro.lineOrder = null;
     } else {
-      LC.quantite = 1;
+      LC.quantity = 1;
     }
-    LC.produit_id = pro.id;
-    LC.produit = pro;
+    LC.product_id = pro.id;
+    LC.product = pro;
     this.shoppingCartService.addShoppingCart(LC);
-    pro.ligneCommande = new LineOrder();
-    pro.ligneCommande.quantite = 0;
+    pro.lineOrder = new LineOrder();
+    pro.lineOrder.quantity = 0;
   }
 }

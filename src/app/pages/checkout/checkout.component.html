@@ -2,7 +2,7 @@
   <div class="example-loading-shade" *ngIf="load">
     <mat-spinner></mat-spinner>
   </div>
-  <mat-vertical-stepper *ngIf="!commandeValid" class="shadow1 checkout" [linear]="true" #stepper>
+  <mat-vertical-stepper *ngIf="!orderValid" class="shadow1 checkout" [linear]="true" #stepper>
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
         <ng-template class="title" matStepLabel>{{ 'address' | translate |uppercase }}</ng-template>
@@ -10,29 +10,29 @@
           <div class=" col">
             <div class="row">
               <mat-form-field class="col">
-                <input [(ngModel)]="adresse.FName" formControlName="fName" name="FName" matInput type="text"
+                <input [(ngModel)]="address.FName" formControlName="fName" name="FName" matInput type="text"
                        placeholder="{{ 'firstName' | translate }}" required>
               </mat-form-field>
               <mat-form-field class="col">
-                <input [(ngModel)]="adresse.LName" formControlName="lName" name="LName" matInput type="text"
+                <input [(ngModel)]="address.LName" formControlName="lName" name="LName" matInput type="text"
                        placeholder="{{ 'lastName' | translate }}" required>
               </mat-form-field>
             </div>
             <div class="row">
               <mat-form-field class="col">
-                <input formControlName="phone" [(ngModel)]="adresse.phone" name="phone" matInput type="text"
+                <input formControlName="phone" [(ngModel)]="address.phone" name="phone" matInput type="text"
                        placeholder="Pho{{ 'phone' | translate }}ne" required>
 
               </mat-form-field>
               <mat-form-field class="col">
-                <input formControlName="adresse" name="Adresse" [(ngModel)]="adresse.address" matInput type="text"
+                <input formControlName="adresse" name="Adresse" [(ngModel)]="address.address" matInput type="text"
                        placeholder="{{ 'address' | translate }}" required>
 
               </mat-form-field>
             </div>
             <div class="row">
               <mat-form-field class="col">
-                <input name="LName" formControlName="info" [(ngModel)]="adresse.info" matInput type="text"
+                <input name="LName" formControlName="info" [(ngModel)]="address.info" matInput type="text"
                        placeholder="{{ 'Moreinformation' | translate }}">
               </mat-form-field>
             </div>
@@ -40,15 +40,15 @@
             <div class="row">
               <mat-form-field class="col">
                 <mat-select formControlName="Region"
-                            placeholder="{{ 'region' | translate }}" [(value)]="adresse.region_id" required>
+                            placeholder="{{ 'region' | translate }}" [(value)]="address.region_id" required>
                   <mat-option *ngFor="let region of regions" [value]="region.id">{{region.name}}</mat-option>
                 </mat-select>
 
               </mat-form-field>
               <mat-form-field class="col">
                 <mat-select formControlName="ville"
-                            placeholder="{{ 'city' | translate }}" [(value)]="adresse.ville_id" required>
-                  <mat-option *ngFor="let ville of villes" [value]="ville.id">{{ville.name}}
+                            placeholder="{{ 'city' | translate }}" [(value)]="address.city_id" required>
+                  <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}
                   </mat-option>
                 </mat-select>
 
@@ -113,17 +113,17 @@
       <form [formGroup]="thirdFormGroup">
         <ng-template matStepLabel>{{ 'Paymentmethod' | translate |uppercase }}</ng-template>
         Which payment method do you want to use?
-        <mat-radio-group [(ngModel)]="typePaiement" formControlName="typeP" class="d-flex flex-column">
+        <mat-radio-group [(ngModel)]="paymentType" formControlName="typeP" class="d-flex flex-column">
           <mat-radio-button class="mt-12" value="1">Cash payment on delivery</mat-radio-button>
           <mat-divider class="mt-12"></mat-divider>
           <mat-radio-button class="mt-12" value="2">PayPal</mat-radio-button>
         </mat-radio-group>
 
         <div class="text-center mt-20">
-          <div class="ml-12" *ngIf="typePaiement==2">
+          <div class="ml-12" *ngIf="paymentType==2">
             <ngx-paypal [config]="payPalConfig" ></ngx-paypal>
           </div>
-          <button (click)="cash()" color="primary" class="ml-12" *ngIf="typePaiement==1" mat-raised-button
+          <button (click)="cash()" color="primary" class="ml-12" *ngIf="paymentType==1" mat-raised-button
                   matStepperNext>
             Place Order
           </button>
@@ -131,7 +131,7 @@
       </form>
     </mat-step>
   </mat-vertical-stepper>
-  <mat-card *ngIf="commandeValid" class="example-card">
+  <mat-card *ngIf="orderValid" class="example-card">
     <mat-card-content>
       <div class="d-flex flex-column justify-content-center align-items-center" style="height: 300px">
         <button mat-fab color="primary">

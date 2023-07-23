@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {LineOrder} from '../models/line-order';
-import {Product} from '../models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +26,8 @@ export class DataService {
     this.comparesSource.next(this.comparesSource.getValue() + NbAttached);
   }
 
-  removeCompare(NbDettached: number = 1) {
-    this.comparesSource.next(this.comparesSource.getValue() - NbDettached);
+  removeCompare(NbDetached: number = 1) {
+    this.comparesSource.next(this.comparesSource.getValue() - NbDetached);
   }
 
   setShoppingCart(data: number) {
@@ -52,7 +50,7 @@ export class DataService {
     this.wishlistSource.next(this.wishlistSource.getValue() + NbAttached);
   }
 
-  removeWishlist(NbDettached: number = 1) {
-    this.wishlistSource.next(this.wishlistSource.getValue() - NbDettached);
+  removeWishlist(NbDetached: number = 1) {
+    this.wishlistSource.next(this.wishlistSource.getValue() - NbDetached);
   }
 }

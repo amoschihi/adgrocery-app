@@ -1,13 +1,10 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {NavigationEnd, NavigationStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import {MatIconRegistry} from '@angular/material';
-import {DomSanitizer} from '@angular/platform-browser';
-import {Article} from './models/article';
 import {Socket} from 'ngx-socket-io';
 import {AuthentificationService} from './services/authentification.service';
 import {SnotifyService} from 'ng-snotify';
-import {CommandeAdminService} from './services/commande-admin.service';
+import {OrderAdminService} from './services/order-admin.service';
 
 @Component({
   selector: 'app-root',
@@ -22,15 +19,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(private route: Router,
               private socket: Socket,
               private notify: SnotifyService,
-              private authentificationService: AuthentificationService,
-              private commandeAdminService: CommandeAdminService,
+              private authenticationService: AuthentificationService,
+              private orderAdminService: OrderAdminService,
               private translate: TranslateService) {
     translate.setDefaultLang('en');
 
   }
 
   ngOnInit(): void {
-    this.authentificationService.authAdminStatus.subscribe(value => {
+    this.authenticationService.authAdminStatus.subscribe(value => {
       if (value) {
         this.socket
           .fromEvent<any>('AdminOrderNotification')
@@ -51,19 +48,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.route.events.subscribe(event => {
 
         if (event instanceof RouteConfigLoadStart) {
-
-          console.log('RouteConfigLoadStart kjdsncjksndjkncsjnjkdc APPCOm');
         }
         if (event instanceof NavigationStart) {
           this.load = true;
-          console.log('NavigationStart kjdsncjksndjkncsjnjkdc APPCOm');
         }
         if (event instanceof NavigationEnd) {
           this.load = false;
-          console.log('NavigationEnd kjdsncjksndjkncsjnjkdc APPCOm');
         }
         if (event instanceof RouteConfigLoadEnd) {
-          console.log('RouteConfigLoadEnd kjdsncjksndjkncsjnjkdc APPCOm');
         }
       }
     );

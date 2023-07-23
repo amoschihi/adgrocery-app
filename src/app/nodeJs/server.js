@@ -12,17 +12,17 @@ io.on('connection', function (socket) {
      console.log('rak hna HHHHHHHHHHHHH', message);
    })*/
 
-  socket.on('CommandeNotification', function (msg) {
+  socket.on('OrderNotification', function (msg) {
     console.log('message: ' + msg);
-    io.emit('CommandeNotification', msg);
+    io.emit('OrderNotification', msg);
   });
   socket.on('AdminOrderNotification', function (msg) {
     console.log('message: ' + msg);
     io.emit('AdminOrderNotification', msg);
   });
-  socket.on('quantiteSetNotification', function (msg) {
-    console.log('quantiteSetNotification', msg);
-    io.emit('quantiteSetNotification', msg);
+  socket.on('quantitySetNotification', function (msg) {
+    console.log('quantitySetNotification', msg);
+    io.emit('quantitySetNotification', msg);
   });
   socket.on('setWishlist', function (msg) {
     console.log('setWishlist', msg);

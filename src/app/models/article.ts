@@ -1,15 +1,14 @@
 import {Image} from './image';
 import {Color} from './color';
-import {File} from './file';
-import {Matiere} from './matiere';
+import {Material} from './material';
 
 export class Article {
   id: number;
   colors: Color[] = [];
-  matieres: Matiere[] = [];
-  taille: number;
+  materials: Material[] = [];
+  size: number;
   stock: number;
-  produit_id: number;
+  product_id: number;
   images: Image[];
   avatar: string | any;
 }

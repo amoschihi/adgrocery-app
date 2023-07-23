@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Categorie} from '../models/categorie';
 import {environment} from '../../environments/environment';
-import {Commande} from '../models/commande';
+import {Order} from '../models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +9,11 @@ import {Commande} from '../models/commande';
 export class CheckoutService {
   private url = environment.urlServeur;
 
-  private commandeSource = new BehaviorSubject<Commande>(null);
-  commande = this.commandeSource.asObservable();
+  private orderSource = new BehaviorSubject<Order>(null);
+  order = this.orderSource.asObservable();
 
-  setCommande(data: Commande) {
-    this.commandeSource.next(data);
+  setOrder(data: Order) {
+    this.orderSource.next(data);
   }
 
 }

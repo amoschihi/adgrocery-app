@@ -1,11 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductPaginate} from '../../models/Product-paginate';
 import {Product} from '../../models/Product';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatPaginator} from '@angular/material';
 import {environment} from '../../../environments/environment';
 import {AppComponent} from '../../app.component';
 import {ActivatedRoute} from '@angular/router';
-import {ProductService} from '../../services/Product.service';
 import {LineOrder} from '../../models/line-order';
 import {CompareService} from '../../services/compare.service';
 import {TokenService} from '../../services/token.service';
@@ -38,7 +37,7 @@ export class CompareComponent implements OnInit {
 
   ngOnInit() {
     this.socket
-      .fromEvent<any>('quantiteSetNotification')
+      .fromEvent<any>('quantitySetNotification')
       .map(data => data).subscribe(value => {
       let articles: Article[] = [];
       articles = [...JSON.parse(value)];
@@ -53,7 +52,7 @@ export class CompareComponent implements OnInit {
       this.compareService.setProductPaginator(this.ProductPaginate);
 
     });
-    this.compareService.ProductPaginator.subscribe(value => {
+    this.compareService.productPaginator.subscribe(value => {
       this.ProductPaginate = value;
       this.dataSource = value.data;
     });
@@ -89,17 +88,17 @@ export class CompareComponent implements OnInit {
   }
 
   selectColor(ele: Product, color) {
-    if (!ele.ligneCommande) {
-      ele.ligneCommande = new LineOrder();
+    if (!ele.lineOrder) {
+      ele.lineOrder = new LineOrder();
     }
-    // ele.ligneCommande.color = color;
+    // ele.lineOrder.color = color;
   }
 
   addToShoppingCart(pro: Product) {
     const LC = new LineOrder();
-    LC.quantite = 1;
-    LC.Product_id = pro.id;
-    LC.Product = pro;
+    LC.quantity = 1;
+    LC.product_id = pro.id;
+    LC.product = pro;
     this.shoppingCartService.addShoppingCart(LC);
   }
 }

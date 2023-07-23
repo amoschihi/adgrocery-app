@@ -5,11 +5,11 @@ export class ModelErrors {
   fName = null;
   lName = null;
   phone = null;
-  adresse = null;
+  address = null;
   infoC = null;
   region = null;
-  ville = null;
-  prix = null;
+  city = null;
+  price = null;
   stock = null;
   email = null;
   password = null;
@@ -22,61 +22,61 @@ export class ModelErrors {
     } else if (control.value !== this.password.value) {
       return {confirm: true, error: true};
     }
-  };
+  }
 
-  constructor(private erreursMessagesService: ErrorsMessagesService) {
+  constructor(private errorsMessagesService: ErrorsMessagesService) {
   }
 
   public getErrorMessageEmail() {
-    return this.erreursMessagesService.getErrorMessageEmail(this.email);
+    return this.errorsMessagesService.getErrorMessageEmail(this.email);
   }
 
   public getErrorMessagePrix() {
-    return this.erreursMessagesService.getErrorMessagePrix(this.prix);
+    return this.errorsMessagesService.getErrorMessagePrice(this.price);
   }
 
   public getErrorMessageStock() {
-    return this.erreursMessagesService.getErrorMessageStock(this.stock);
+    return this.errorsMessagesService.getErrorMessageStock(this.stock);
   }
 
   public getErrorMessagePassword() {
-    return this.erreursMessagesService.getErrorMessagePassword(this.password);
+    return this.errorsMessagesService.getErrorMessagePassword(this.password);
   }
 
 
   public getErrorMessageConfirm() {
-    return this.erreursMessagesService.getErrorMessageConfirm(this.password_confirmation);
+    return this.errorsMessagesService.getErrorMessageConfirm(this.password_confirmation);
   }
 
   public getErrorMessageName() {
-    return this.erreursMessagesService.getErrorMessageName(this.name);
+    return this.errorsMessagesService.getErrorMessageName(this.name);
   }
 
   public getErrorMessageFName() {
-    return this.erreursMessagesService.getErrorMessageName(this.fName);
+    return this.errorsMessagesService.getErrorMessageName(this.fName);
   }
 
   public getErrorMessageLName() {
-    return this.erreursMessagesService.getErrorMessageName(this.lName);
+    return this.errorsMessagesService.getErrorMessageName(this.lName);
   }
 
   public getErrorMessageAdresse() {
-    return this.erreursMessagesService.getErrorMessageName(this.adresse);
+    return this.errorsMessagesService.getErrorMessageName(this.address);
   }
 
   public getErrorMessageRegion() {
-    return this.erreursMessagesService.getErrorMessageName(this.region);
+    return this.errorsMessagesService.getErrorMessageName(this.region);
   }
 
   public getErrorMessageVille() {
-    return this.erreursMessagesService.getErrorMessageName(this.ville);
+    return this.errorsMessagesService.getErrorMessageName(this.city);
   }
 
   public getErrorMessagePhone() {
-    return this.erreursMessagesService.getErrorMessageName(this.phone);
+    return this.errorsMessagesService.getErrorMessageName(this.phone);
   }
 
   public getErrorMessageInfoC() {
-    return this.erreursMessagesService.getErrorMessageName(this.infoC);
+    return this.errorsMessagesService.getErrorMessageName(this.infoC);
   }
 }

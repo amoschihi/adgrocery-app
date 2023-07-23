@@ -1,8 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {TokenService} from '../../services/token.service';
-import {Router} from '@angular/router';
-import {BreakpointObserver} from '@angular/cdk/layout';
-import {logging} from 'selenium-webdriver';
 
 @Component({
     selector: 'app-profile',

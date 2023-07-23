@@ -2,26 +2,26 @@ import {Component, OnInit} from '@angular/core';
 import {ModelErrors} from '../../../../models/model-errors';
 import {FormControl, Validators} from '@angular/forms';
 import {ErrorsMessagesService} from '../../../../services/errors-messages.service';
-import {Categorie} from '../../../../models/categorie';
-import {Product} from '../../../../models/Product';
-import {Marque} from '../../../../models/marque';
-import {SousCategorie} from '../../../../models/sous-categorie';
-import {Matiere} from '../../../../models/matiere';
+import {Category} from '../../../../models/category';
+import {Product} from '../../../../models/product';
+import {Brand} from '../../../../models/brand';
+import {SubCategory} from '../../../../models/sub-category';
+import {Material} from '../../../../models/material';
 import {Color} from '../../../../models/color';
 import {ActivatedRoute} from '@angular/router';
 import {ColorService} from '../../../../services/color.service';
-import {SousCategorieService} from '../../../../services/sous-categorie.service';
-import {MatiereService} from '../../../../services/matiere.service';
-import {CategorieService} from '../../../../services/categorie.service';
-import {ProductService} from '../../../../services/Product.service';
-import {MarqueService} from '../../../../services/marque.service';
+import {SubCategoryService} from '../../../../services/sub-category.service';
+import {MaterialService} from '../../../../services/material.service';
+import {CategoryService} from '../../../../services/category.service';
+import {ProductService} from '../../../../services/product.service';
+import {BrandService} from '../../../../services/brand.service';
 import {ErrorsNotifService} from '../../../../services/errors-notif.service';
 import {SnotifyService} from 'ng-snotify';
 import {Image} from '../../../../models/image';
 import {environment} from '../../../../../environments/environment';
 import {Observable} from 'rxjs';
-import {ReductionService} from '../../../../services/reduction.service';
-import {Reduction} from '../../../../models/reduction';
+import {DiscountService} from '../../../../services/discount.service';
+import {Discount} from '../../../../models/discount';
 
 @Component({
   selector: 'app-update-product',
@@ -29,85 +29,85 @@ import {Reduction} from '../../../../models/reduction';
   styleUrls: ['./update-product.component.css']
 })
 export class UpdateProductComponent extends ModelErrors implements OnInit {
-  Product: Product = new Product();
-  sousCategories: SousCategorie[] = [];
-  categories: Categorie[];
-  marques: Marque[];
+  product: Product = new Product();
+  subCategories: SubCategory[] = [];
+  categories: Category[];
+  brands: Brand[];
   colors: Color[];
-  reductions: Reduction[];
-  matieres: Matiere[];
+  discounts: Discount[];
+  materials: Material[];
   nbFile = 0;
   url: string = environment.urlServeur2;
   selected = 0;
   colors_id = [];
-  matieres_id = [];
+  materials_id = [];
 
-  constructor(private sousCategorieService: SousCategorieService,
+  constructor(private subCategoryService: SubCategoryService,
               private notify: SnotifyService,
-              private categorieService: CategorieService,
+              private categoryService: CategoryService,
               private colorService: ColorService,
-              private matiereService: MatiereService,
-              private reductionService: ReductionService,
+              private materialService: MaterialService,
+              private discountService: DiscountService,
               private productService: ProductService,
-              private marqueService: MarqueService,
+              private brandService: BrandService,
               private errorsNotifService: ErrorsNotifService,
               private route: ActivatedRoute,
-              erreursMessagesService: ErrorsMessagesService) {
-    super(erreursMessagesService);
+              errorsMessagesService: ErrorsMessagesService) {
+    super(errorsMessagesService);
   }
 
   ngOnInit() {
-    this.route.data.subscribe((value: { Product: Product }) => {
-      this.Product = value.Product;
-      this.sousCategories = this.Product.categorie.sous_categories;
-      this.colors_id = this.Product.article.colors.map(value1 => value1.id);
-      this.matieres_id = this.Product.article.matieres.map(value1 => value1.id);
+    this.route.data.subscribe((value: { product: Product }) => {
+      this.product = value.product;
+      this.subCategories = this.product.category.subCategories;
+      this.colors_id = this.product.article.colors.map(value1 => value1.id);
+      this.materials_id = this.product.article.materials.map(value1 => value1.id);
       console.log(this.colors_id);
-      console.log(this.Product);
+      console.log(this.product);
     }, error1 => {
       console.log(error1);
     });
-    this.categorieService.categories.subscribe(value => {
+    this.categoryService.categories.subscribe(value => {
       this.categories = value;
     });
-    /* this.sousCategorieService.get().subscribe(cats => {
-       this.sousCategories = cats;
+    /* this.subCategoryService.get().subscribe(cats => {
+       this.subCategories = cats;
      }, error1 => console.log(error1));
  */
     this.colorService.colors.subscribe(value => {
       this.colors = value;
     });
-    this.reductionService.reductions.subscribe(value => {
-      this.reductions = value;
+    this.discountService.discounts.subscribe(value => {
+      this.discounts = value;
     });
 
-    this.matiereService.matieres.subscribe(value => {
-      this.matieres = value;
+    this.materialService.materials.subscribe(value => {
+      this.materials = value;
     });
 
-    this.marqueService.get().subscribe(value => {
-      this.marques = value;
+    this.brandService.get().subscribe(value => {
+      this.brands = value;
     }, error1 => console.log(error1));
 
 
     this.name = new FormControl('', [Validators.required]);
-    this.prix = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')]);
+    this.price = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')]);
     this.stock = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
     // this.email = new FormControl('', [Validators.required]);
-    this.nbFile = this.Product.article.images.length;
+    this.nbFile = this.product.article.images.length;
   }
 
-  save(myform: any) {
-    this.Product.article.colors = this.colors_id;
-    this.Product.article.matieres = this.matieres_id;
+  save(myForm: any) {
+    this.product.article.colors = this.colors_id;
+    this.product.article.materials = this.materials_id;
     const successAction = Observable.create(observer => {
-      this.productService.update(this.Product).subscribe(value => {
+      this.productService.update(this.product).subscribe(value => {
         observer.next(this.errorsNotifService.handleResponse2('', 'Success'));
         observer.complete();
         this.productService.get(true);
       }, error1 => {
         console.log(error1);
-        observer.error(this.errorsNotifService.handleErreur2('', 'Error'));
+        observer.error(this.errorsNotifService.handleError2('', 'Error'));
       });
     });
 
@@ -116,11 +116,11 @@ export class UpdateProductComponent extends ModelErrors implements OnInit {
 
   changeSousCat(val: any) {
     const cat = this.categories.find(value => value.id === val.value);
-    this.sousCategories = cat.sous_categories;
+    this.subCategories = cat.subCategories;
   }
 
   removeAll() {
-    for (const image of this.Product.article.images) {
+    for (const image of this.product.article.images) {
       if (image.id) {
         this.productService.deleteImage(image).subscribe(value => {
           console.log(value);
@@ -129,15 +129,15 @@ export class UpdateProductComponent extends ModelErrors implements OnInit {
         });
       }
     }
-    this.Product.article.images = [];
-    this.nbFile = this.Product.article.images.length;
+    this.product.article.images = [];
+    this.nbFile = this.product.article.images.length;
   }
 
   remove(image: Image): void {
-    const index = this.Product.article.images.indexOf(image);
+    const index = this.product.article.images.indexOf(image);
 
     if (index >= 0) {
-      this.Product.article.images.splice(index, 1);
+      this.product.article.images.splice(index, 1);
     }
     if (image.id) {
       this.productService.deleteImage(image).subscribe(value => {
@@ -146,7 +146,7 @@ export class UpdateProductComponent extends ModelErrors implements OnInit {
         console.log(error1);
       });
     }
-    this.nbFile = this.Product.article.images.length;
+    this.nbFile = this.product.article.images.length;
   }
 
   OnChimages(images: any) {
@@ -160,8 +160,8 @@ export class UpdateProductComponent extends ModelErrors implements OnInit {
         Im.value = reader.result.split(',')[1];
         Im.src = reader.result;
         console.log(reader.result);
-        this.Product.article.images.push(Im);
-        this.nbFile = this.Product.article.images.length;
+        this.product.article.images.push(Im);
+        this.nbFile = this.product.article.images.length;
       };
     }
   }

@@ -4,7 +4,6 @@ import {ProductPaginate} from '../models/product-paginate';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {TokenService} from './token.service';
-import {Ville} from '../models/ville';
 import {DataService} from './data.service';
 
 @Injectable({
@@ -13,13 +12,13 @@ import {DataService} from './data.service';
 export class WishlistService {
   private url = environment.urlServeur;
   private _wishListIsModified: boolean;
-  private produitPaginatorSource = new BehaviorSubject<ProductPaginate>(null);
+  private productPaginatorSource = new BehaviorSubject<ProductPaginate>(null);
 
 
-  produitPaginator = this.produitPaginatorSource.asObservable();
+  productPaginator = this.productPaginatorSource.asObservable();
 
-  setproduitPaginator(data: ProductPaginate) {
-    this.produitPaginatorSource.next(data);
+  setProductPaginator(data: ProductPaginate) {
+    this.productPaginatorSource.next(data);
   }
 
   constructor(private http: HttpClient,
@@ -34,8 +33,8 @@ export class WishlistService {
     perPage = 12,
     id: number[]): Observable<ProductPaginate> {
     return new Observable(observer => {
-      if (!refresh && this.produitPaginatorSource.getValue()) {
-        observer.next(this.produitPaginatorSource.getValue());
+      if (!refresh && this.productPaginatorSource.getValue()) {
+        observer.next(this.productPaginatorSource.getValue());
         return observer.complete();
       }
       const params = new HttpParams()
@@ -44,8 +43,8 @@ export class WishlistService {
         .set('id', id.join(', '));
       this.http.get<ProductPaginate>(this.url + '/GAPRODBLID', {params: params}).subscribe(value => {
         this.dataService.setWishlist(value.total);
-        this.produitPaginatorSource.next(value);
-        observer.next(this.produitPaginatorSource.getValue());
+        this.productPaginatorSource.next(value);
+        observer.next(this.productPaginatorSource.getValue());
         observer.complete();
       });
     });
@@ -56,8 +55,8 @@ export class WishlistService {
     page = 1,
     perPage = 12): Observable<ProductPaginate> {
     return new Observable(observer => {
-      if (!refresh && this.produitPaginatorSource.getValue()) {
-        observer.next(this.produitPaginatorSource.getValue());
+      if (!refresh && this.productPaginatorSource.getValue()) {
+        observer.next(this.productPaginatorSource.getValue());
         return observer.complete();
       }
       const params = new HttpParams()
@@ -65,8 +64,8 @@ export class WishlistService {
         .set('perPage', perPage.toString());
       this.http.get<ProductPaginate>(this.url + '/GAPWL', {params: params}).subscribe(value => {
         this.dataService.setWishlist(value.total);
-        this.produitPaginatorSource.next(value);
-        observer.next(this.produitPaginatorSource.getValue());
+        this.productPaginatorSource.next(value);
+        observer.next(this.productPaginatorSource.getValue());
         observer.complete();
       });
     });
@@ -146,11 +145,11 @@ export class WishlistService {
   }
 
   removeItemFromWishlistAfterLogin(id: number) {
-    this.delete(id).subscribe(value => {
+    this.delete(id).subscribe(() => {
       this.dataService.removeWishlist();
-      const PP = this.produitPaginatorSource.getValue();
+      const PP = this.productPaginatorSource.getValue();
       PP.data = PP.data.filter(value2 => value2.id !== id);
-      this.produitPaginatorSource.next(PP);
+      this.productPaginatorSource.next(PP);
     });
   }
 
@@ -158,27 +157,27 @@ export class WishlistService {
     let arr = this.getWishlist();
     arr = arr.filter(value => value !== id);
     localStorage.setItem('wishlist', JSON.stringify(arr));
-    const PP = this.produitPaginatorSource.getValue();
+    const PP = this.productPaginatorSource.getValue();
     PP.data = PP.data.filter(value2 => value2.id !== id);
-    this.produitPaginatorSource.next(PP);
+    this.productPaginatorSource.next(PP);
     this.dataService.removeWishlist();
   }
 
 
   clearWishlistAfterLogin() {
-    this.deleteAll().subscribe(value => {
+    this.deleteAll().subscribe(() => {
       this.dataService.setWishlist(0);
-      const PP = this.produitPaginatorSource.getValue();
+      const PP = this.productPaginatorSource.getValue();
       PP.data = [];
-      this.produitPaginatorSource.next(PP);
+      this.productPaginatorSource.next(PP);
     });
   }
 
   clearWishlistBeforeLogin() {
     localStorage.setItem('wishlist', JSON.stringify([]));
-    const PP = this.produitPaginatorSource.getValue();
+    const PP = this.productPaginatorSource.getValue();
     PP.data = [];
-    this.produitPaginatorSource.next(PP);
+    this.productPaginatorSource.next(PP);
     this.dataService.setWishlist(0);
   }
 

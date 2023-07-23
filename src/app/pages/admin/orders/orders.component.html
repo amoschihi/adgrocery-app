@@ -1,0 +1,43 @@
+<div class="example-loading-shade" *ngIf="load">
+  <mat-spinner></mat-spinner>
+</div>
+<mat-tab-group #tab (selectedTabChange)="slectTab(tab.selectedIndex)">
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span matBadgeColor="warn" matBadge="{{NewOrderPaginate.total}}"
+            matBadgeOverlap="false">{{ 'Ordered' | translate }}</span>
+    </ng-template>
+    <ng-template matTabContent>
+      <app-news-orders [loggedInAdmin]="loggedInAdmin"></app-news-orders>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="{{ 'shipped' | translate }}">
+    <ng-template *ngIf="ShippedOrderPaginate" mat-tab-label>
+      <span matBadgeColor="warn" matBadge="{{ShippedOrderPaginate.total}}"
+            matBadgeOverlap="false">{{ 'shipped' | translate }}</span>
+    </ng-template>
+    <ng-template matTabContent>
+      <app-shipped-orders [loggedInAdmin]="loggedInAdmin"></app-shipped-orders>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="{{ 'delivered' | translate }}">
+    <ng-template *ngIf="DeliveredOrderPaginate" mat-tab-label>
+      <span matBadgeColor="warn" matBadge="{{DeliveredOrderPaginate.total}}"
+            matBadgeOverlap="false">{{ 'delivered' | translate }}</span>
+    </ng-template>
+    <ng-template matTabContent>
+      <app-delivered-orders [loggedInAdmin]="loggedInAdmin"></app-delivered-orders>
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="loggedInAdmin" label="{{ 'closed' | translate }}">
+    <ng-template *ngIf="ClosedOrderPaginate" mat-tab-label>
+      <span matBadgeColor="warn" matBadge="{{ClosedOrderPaginate.total}}"
+            matBadgeOverlap="false">{{ 'closed' | translate }}</span>
+    </ng-template>
+    <ng-template matTabContent>
+      <app-closed-orders></app-closed-orders>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+

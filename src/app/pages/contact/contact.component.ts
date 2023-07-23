@@ -22,11 +22,11 @@ export class ContactComponent extends ModelErrors implements OnInit {
   infoSite: InfoSite;
   reCaptchaKey = environment.reCaptchaKey;
 
-  constructor(erreursMessagesService: ErrorsMessagesService,
+  constructor(errorsMessagesService: ErrorsMessagesService,
               private contactService: ContactService,
               private errorsNotifService: ErrorsNotifService,
               public main: MainComponent, private infoSiteService: InfoSiteService) {
-    super(erreursMessagesService);
+    super(errorsMessagesService);
   }
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class ContactComponent extends ModelErrors implements OnInit {
         this.email.invalid = true;
       }, error1 => {
         console.log(error1);
-        observer.error(this.errorsNotifService.handleErreur2('', 'please try later'));
+        observer.error(this.errorsNotifService.handleError2('', 'please try later'));
       });
     });
 

@@ -4,7 +4,6 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {TokenService} from './token.service';
 import {InfoSite} from '../models/info-site';
-import {SousCategorie} from '../models/sous-categorie';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +22,11 @@ export class InfoSiteService {
   }
 
   getInfoSite(): Promise<InfoSite> {
-    const promise = this.http.get<InfoSite>(this.url + '/GInfoSite')
+    return this.http.get<InfoSite>(this.url + '/GInfoSite')
       .toPromise()
       .then(infoSite => {
         return infoSite;
       });
-
-    return promise;
   }
 
   public get(refresh: boolean = false): Observable<InfoSite> {

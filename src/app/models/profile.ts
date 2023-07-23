@@ -1,10 +1,10 @@
-import {Adresse} from './adresse';
+import {Address} from './address';
 
 export class Profile {
   id: number;
-  sexe: string;
+  sex: string;
   dateN: Date = new Date();
   src: string;
   type: string;
-  adresses: Adresse[];
+  addresses: Address[];
 }

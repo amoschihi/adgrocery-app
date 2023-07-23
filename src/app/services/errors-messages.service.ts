@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {SnotifyService} from 'ng-snotify';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +15,15 @@ export class ErrorsMessagesService {
           '';
   }
 
-  public getErrorMessagePrix(prix) {
-    return prix.hasError('required') ? 'You must enter a value' :
-      prix.hasError('pattern') ? 'example : 12.25' :
+  public getErrorMessagePrice(price) {
+    return price.hasError('required') ? 'You must enter a value' :
+      price.hasError('pattern') ? 'example : 12.25' :
         '';
   }
 
-  public getErrorMessageStock(prix) {
-    return prix.hasError('required') ? 'You must enter a value' :
-      prix.hasError('pattern') ? 'Number' :
+  public getErrorMessageStock(price) {
+    return price.hasError('required') ? 'You must enter a value' :
+      price.hasError('pattern') ? 'Number' :
         '';
   }
 
@@ -38,9 +37,9 @@ export class ErrorsMessagesService {
       name.hasError('minlength') ? 'Name must be at least 5 characters long.' : '';
   }
 
-  public getErrorMessageConfirm(confirmpassword) {
-    return confirmpassword.hasError('required') ? 'You must enter a value' :
-      confirmpassword.hasError('confirm') ? 'Two passwords that you enter is inconsistent!' :
+  public getErrorMessageConfirm(confirmPassword) {
+    return confirmPassword.hasError('required') ? 'You must enter a value' :
+      confirmPassword.hasError('confirm') ? 'Two passwords that you enter is inconsistent!' :
         '';
   }
 

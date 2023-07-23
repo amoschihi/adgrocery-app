@@ -1,18 +1,15 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CategorieService} from '../../services/categorie.service';
-import {Categorie} from '../../models/categorie';
-import {Router} from '@angular/router';
+import {CategoryService} from '../../services/category.service';
+import {Category} from '../../models/category';
 import {AuthentificationService} from '../../services/authentification.service';
 import {InfoSite} from '../../models/info-site';
 import {environment} from '../../../environments/environment';
 import {UserServicesService} from '../../services/user-services.service';
 import {TokenService} from '../../services/token.service';
 import {DataService} from '../../services/data.service';
-import {Product} from '../../models/product';
-import {LineOrder} from '../../models/line-order';
 import {InfoSiteService} from '../../services/info-site.service';
 import {TranslateService} from '@ngx-translate/core';
 
@@ -31,7 +28,7 @@ export class MainNavComponent implements OnInit, AfterViewInit {
     .pipe(
       map(result => result.matches)
     );
-  categories: Categorie[] = [];
+  categories: Category[] = [];
   @Input() infoSite: InfoSite;
   x: number;
   y: number;
@@ -39,11 +36,11 @@ export class MainNavComponent implements OnInit, AfterViewInit {
   compares = 0;
   wishlist = 0;
   shoppingCart = 0;
-  anglais = true;
+  english = true;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private categorieService: CategorieService,
+    private categoryService: CategoryService,
     private authService: AuthentificationService,
     private userService: UserServicesService,
     private tokenService: TokenService,
@@ -63,7 +60,7 @@ export class MainNavComponent implements OnInit, AfterViewInit {
     this.infoSiteService.infoSite.subscribe(value => {
       this.infoSite = value;
     });
-    this.categorieService.categories.subscribe(value => {
+    this.categoryService.categories.subscribe(value => {
       this.categories = value;
     });
     this.dataService.shoppingCart$.subscribe(value => {
@@ -94,13 +91,13 @@ export class MainNavComponent implements OnInit, AfterViewInit {
     this.userService.logout2();
   }
 
-  english() {
-    this.anglais = true;
+  setEnglish() {
+    this.english = true;
     this.translate.use('en');
   }
 
-  frensh() {
-    this.anglais = false;
+  setFrench() {
+    this.english = false;
     this.translate.use('fr');
   }
 

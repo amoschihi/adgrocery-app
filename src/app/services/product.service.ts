@@ -2,16 +2,12 @@ import {Injectable} from '@angular/core';
 import {TokenService} from './token.service';
 import {environment} from '../../environments/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Repository} from '../models/repository';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Product} from '../models/product';
-import {headersToString} from 'selenium-webdriver/http';
-import {InfoSite} from '../models/info-site';
 import {Image} from '../models/image';
 import {ProductPaginate} from '../models/product-paginate';
-import {CritereRecherche} from '../models/critere-recherche';
+import {SearchCriteria} from '../models/search-criteria';
 import {DataService} from './data.service';
-import {LineOrder} from '../models/line-order';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +58,7 @@ export class ProductService {
     refresh: boolean = false,
     page = 1,
     perPage = 12,
-    critereRecherche: CritereRecherche = new CritereRecherche()
+    searchCriteria: SearchCriteria = new SearchCriteria()
   ): Observable<ProductPaginate> {
     return new Observable(observer => {
       if (!refresh && this.productPaginatorSource.getValue()) {
@@ -72,13 +68,13 @@ export class ProductService {
       const params = new HttpParams()
         .set('page', page.toString())
         .set('perPage', perPage.toString())
-        .set('categorie_id', critereRecherche.categorie_id ? critereRecherche.categorie_id.toString() : '')
-        .set('sousCategorie_id', critereRecherche.sousCategorie_id ? critereRecherche.sousCategorie_id.toString() : '')
-        .set('prixFrom', critereRecherche.prixFrom ? critereRecherche.prixFrom.toString() : '')
-        .set('prixTo', critereRecherche.prixTo ? critereRecherche.prixTo.toString() : '')
-        .set('colors_id', critereRecherche.colors_id ? critereRecherche.colors_id.join(', ') : '')
-        .set('matieres_id', critereRecherche.matieres_id ? critereRecherche.matieres_id.join(', ') : '')
-        .set('marque_id', critereRecherche.marque_id ? critereRecherche.marque_id.toString() : '');
+        .set('category_id', searchCriteria.category_id ? searchCriteria.category_id.toString() : '')
+        .set('subCategory_id', searchCriteria.subCategory_id ? searchCriteria.subCategory_id.toString() : '')
+        .set('priceFrom', searchCriteria.priceFrom ? searchCriteria.priceFrom.toString() : '')
+        .set('priceTo', searchCriteria.priceTo ? searchCriteria.priceTo.toString() : '')
+        .set('colors_id', searchCriteria.colors_id ? searchCriteria.colors_id.join(', ') : '')
+        .set('materials_id', searchCriteria.materials_id ? searchCriteria.materials_id.join(', ') : '')
+        .set('brand_id', searchCriteria.brand_id ? searchCriteria.brand_id.toString() : '');
       this.http.get<ProductPaginate>(this.url + '/GAPROD', {params: params}).subscribe(value => {
         this.productPaginatorSource.next(value);
         observer.next(this.productPaginatorSource.getValue());
@@ -109,7 +105,7 @@ export class ProductService {
     });
   }
 
-  public getNewArrivale(
+  public getNewArrival(
     page = 1,
     perPage = 6, refresh = false, url: string = this.url + '/GAPRODNA?page=' + page): Observable<ProductPaginate> {
     return new Observable(observer => {

@@ -24,9 +24,9 @@ export class RequestResetPasswordComponent extends ModelErrors implements OnInit
     private userService: UserServicesService,
     private router: Router,
     private notify: SnotifyService,
-    erreursMessagesService: ErrorsMessagesService
+    errorsMessagesService: ErrorsMessagesService
   ) {
-    super(erreursMessagesService);
+    super(errorsMessagesService);
   }
 
   ngOnInit() {
@@ -39,8 +39,8 @@ export class RequestResetPasswordComponent extends ModelErrors implements OnInit
     this.notify.info('wait...', {'timeout': 0, position: 'rightTop'});
     this.userService.sendRestPasswordLink(this.myuser).subscribe(next => {
       this.handleResponse();
-    }, erreur => {
-      this.handleErreur(erreur);
+    }, error => {
+      this.handleError(error);
     });
   }
 
@@ -50,9 +50,9 @@ export class RequestResetPasswordComponent extends ModelErrors implements OnInit
     this.router.navigateByUrl('/main/login');
   }
 
-  private handleErreur(erreur) {
+  private handleError(error) {
     this.notify.clear();
     this.notify.error('Email not found !', 'Error', {position: 'rightTop'});
-    // this.erreur = erreur.error.error;
+    // this.error = error.error.error;
   }
 }

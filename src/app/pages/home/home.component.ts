@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
-import {ActualiteService} from '../../services/actualite.service';
-import {Actualite} from '../../models/actualite';
+import {NewsService} from '../../services/news.service';
+import {News} from '../../models/news';
 import {environment} from '../../../environments/environment';
 import {ProductService} from '../../services/product.service';
 import {Socket} from 'ngx-socket-io';
@@ -32,20 +32,20 @@ export class HomeComponent implements OnInit {
   };
 
   index;
-  actualies: Actualite[];
+  actualies: News[];
   url: string = environment.urlServeur2;
 
-  constructor(private actualiteService: ActualiteService,
+  constructor(private newsService: NewsService,
               private socket: Socket,
               private productService: ProductService
   ) {
   }
 
   ngOnInit() {
-    this.socket.emit('quantiteSetNotification', JSON.stringify([]));
+    this.socket.emit('quantitySetNotification', JSON.stringify([]));
     this.socket.emit('setWishlist', JSON.stringify([]));
 
-    this.actualiteService.actualies.subscribe(value => {
+    this.newsService.news.subscribe(value => {
       this.actualies = value;
     });
   }

@@ -1,26 +1,26 @@
 import {Component, OnInit} from '@angular/core';
-import {SousCategorie} from '../../../../models/sous-categorie';
-import {Categorie} from '../../../../models/categorie';
+import {SubCategory} from '../../../../models/sub-category';
+import {Category} from '../../../../models/category';
 import {SnotifyService} from 'ng-snotify';
-import {CategorieService} from '../../../../services/categorie.service';
-import {SousCategorieService} from '../../../../services/sous-categorie.service';
+import {CategoryService} from '../../../../services/category.service';
+import {SubCategoryService} from '../../../../services/sub-category.service';
 import {Color} from '../../../../models/color';
 import {ColorService} from '../../../../services/color.service';
-import {Marque} from '../../../../models/marque';
-import {MarqueService} from '../../../../services/marque.service';
+import {Brand} from '../../../../models/brand';
+import {BrandService} from '../../../../services/brand.service';
 import {Image} from '../../../../models/image';
 import {ModelErrors} from '../../../../models/model-errors';
 import {ErrorsMessagesService} from '../../../../services/errors-messages.service';
 import {FormControl, Validators} from '@angular/forms';
-import {Matiere} from '../../../../models/matiere';
-import {MatiereService} from '../../../../services/matiere.service';
+import {Material} from '../../../../models/material';
+import {MaterialService} from '../../../../services/material.service';
 import {Observable} from 'rxjs';
 import {ErrorsNotifService} from '../../../../services/errors-notif.service';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Region} from '../../../../models/region';
 import {MatChipInputEvent} from '@angular/material';
-import {ReductionService} from '../../../../services/reduction.service';
-import {Reduction} from '../../../../models/reduction';
+import {DiscountService} from '../../../../services/discount.service';
+import {Discount} from '../../../../models/discount';
 import {Product} from '../../../../models/product';
 import {ProductService} from '../../../../services/product.service';
 
@@ -32,57 +32,57 @@ import {ProductService} from '../../../../services/product.service';
 export class AddProductComponent extends ModelErrors implements OnInit {
 
   product: Product = new Product();
-  sousCategories: SousCategorie[] = [];
-  categories: Categorie[];
-  reductions: Reduction[];
-  marques: Marque[];
+  subCategories: SubCategory[] = [];
+  categories: Category[];
+  discounts: Discount[];
+  brands: Brand[];
   colors: Color[];
-  matieres: Matiere[];
+  materials: Material[];
   nbFile = 0;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   fruits: Region[] = [
     {id: 1, name: 'Lemon', api_token: ''}];
 
-  constructor(private sousCategorieService: SousCategorieService,
+  constructor(private subCategoryService: SubCategoryService,
               private notify: SnotifyService,
               private errorsNotifService: ErrorsNotifService,
-              private categorieService: CategorieService,
+              private categoryService: CategoryService,
               private colorService: ColorService,
-              private reductionService: ReductionService,
-              private matiereService: MatiereService,
+              private discountService: DiscountService,
+              private materialService: MaterialService,
               private productService: ProductService,
-              private marqueService: MarqueService,
+              private marqueService: BrandService,
               /*      public productsComponent: ProductsComponent,*/
-              erreursMessagesService: ErrorsMessagesService) {
-    super(erreursMessagesService);
+              errorsMessagesService: ErrorsMessagesService) {
+    super(errorsMessagesService);
   }
 
   ngOnInit() {
-    this.categorieService.categories.subscribe(value => {
+    this.categoryService.categories.subscribe(value => {
       this.categories = value;
     });
-    this.reductionService.reductions.subscribe(value => {
-      this.reductions = value;
+    this.discountService.discounts.subscribe(value => {
+      this.discounts = value;
     });
-    /* this.sousCategorieService.get().subscribe(cats => {
-       this.sousCategories = cats;
+    /* this.subCategoryService.get().subscribe(cats => {
+       this.subCategories = cats;
      }, error1 => console.log(error1));
  */
     this.colorService.colors.subscribe(value => {
       this.colors = value;
     });
 
-    this.matiereService.matieres.subscribe(value => {
-      this.matieres = value;
+    this.materialService.materials.subscribe(value => {
+      this.materials = value;
     });
 
     this.marqueService.get().subscribe(value => {
-      this.marques = value;
+      this.brands = value;
     }, error1 => console.log(error1));
 
     this.name = new FormControl('', [Validators.required]);
-    this.prix = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')]);
+    this.price = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')]);
     this.stock = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
     this.email = new FormControl('', [Validators.required]);
     this.product.article.images = [];
@@ -119,7 +119,7 @@ export class AddProductComponent extends ModelErrors implements OnInit {
         // myform.reset();
         observer.complete();
       }, error1 => {
-        observer.error(this.errorsNotifService.handleErreur2('', 'Error'));
+        observer.error(this.errorsNotifService.handleError2('', 'Error'));
       });
     });
 
@@ -128,7 +128,7 @@ export class AddProductComponent extends ModelErrors implements OnInit {
 
   changeSousCat(val: any) {
     const cat = this.categories.find(value => value.id === val.value);
-    this.sousCategories = cat.sous_categories;
+    this.subCategories = cat.subCategories;
   }
 
 

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CategorieService} from '../../services/categorie.service';
-import {Categorie} from '../../models/categorie';
+import {CategoryService} from '../../services/category.service';
+import {Category} from '../../models/category';
 
 @Component({
   selector: 'app-menu',
@@ -9,13 +9,13 @@ import {Categorie} from '../../models/categorie';
 })
 export class MenuComponent implements OnInit {
   @Input() public loggedIn: boolean;
-  categories: Categorie[];
+  categories: Category[];
 
-  constructor(private categorieService: CategorieService) {
+  constructor(private categoryService: CategoryService) {
   }
 
   ngOnInit() {
-    this.categorieService.get().subscribe(value => {
+    this.categoryService.get().subscribe(value => {
       this.categories = value;
     }, error1 => console.log(error1));
   }

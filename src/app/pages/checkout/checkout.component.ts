@@ -1,32 +1,29 @@
 import {Component, OnChanges, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Adresse} from '../../models/adresse';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Address} from '../../models/address';
 import {RegionService} from '../../services/region.service';
-import {TokenService} from '../../services/token.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserServicesService} from '../../services/user-services.service';
-import {VilleService} from '../../services/ville.service';
+import {CityService} from '../../services/city.service';
 import {Region} from '../../models/region';
-import {Ville} from '../../models/ville';
+import {City} from '../../models/city';
 import {CheckoutService} from '../../services/checkout.service';
-import {Commande} from '../../models/commande';
-import {TypeLivraison} from '../../models/type-livraison';
-import {TypeLivraisonService} from '../../services/type-livraison.service';
-import {TarifService} from '../../services/tarif.service';
-import {Tarif} from '../../models/tarif';
-import {Livraison} from '../../models/livraison';
-import {Paiement} from '../../models/paiement';
-import {TypePaiement} from '../../models/type-paiement.enum';
-import {Statuts} from '../../models/statuts.enum';
-import {CommandeService} from '../../services/commande.service';
-import {e} from '@angular/core/src/render3';
-import {AdresseService} from '../../services/adresse.service';
+import {Order} from '../../models/order';
+import {DeliveryType} from '../../models/delivery-type';
+import {DeliveryTypeService} from '../../services/delivery-type.service';
+import {RateService} from '../../services/rate.service';
+import {Rate} from '../../models/rate';
+import {Delivery} from '../../models/delivery';
+import {Payment} from '../../models/payment';
+import {OrderService} from '../../services/order.service';
+import {AddressService} from '../../services/address.service';
 import {ShoppingCartService} from '../../services/shopping-cart.service';
 import {WishlistService} from '../../services/wishlist.service';
 import {CompareService} from '../../services/compare.service';
 import {Socket} from 'ngx-socket-io';
-import {InfoSite} from '../../models/info-site';
 import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
+import {PaymentTypeEnum} from '../../models/payment-type.enum';
+import {StatusEnums} from '../../models/status.enums';
 
 @Component({
   selector: 'app-checkout',
@@ -37,33 +34,33 @@ export class CheckoutComponent implements OnInit, OnChanges {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
-  adresse: Adresse = new Adresse();
+  address: Address = new Address();
   regions: Region[];
-  villes: Ville[];
-  commande: Commande;
-  typeLivraisons: TypeLivraison[];
-  typeLivraison_id: number;
-  tarif: Tarif;
-  typePaiement = 0;
-  commandeValid = false;
+  cities: City[];
+  order: Order;
+  deliveryType: DeliveryType[];
+  deliveryType_id: number;
+  rate: Rate;
+  paymentType = 0;
+  orderValid = false;
   load = false;
   public payPalConfig?: PayPalConfig;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserServicesService,
               private checkoutService: CheckoutService,
-              private commandeService: CommandeService,
+              private orderService: OrderService,
               private socket: Socket,
               private route: ActivatedRoute,
               private router: Router,
-              private adresseService: AdresseService,
-              private typeLivraisonService: TypeLivraisonService,
-              private tarifService: TarifService,
+              private addressService: AddressService,
+              private deliveryTypeService: DeliveryTypeService,
+              private rateService: RateService,
               private regionService: RegionService,
               private wishlistService: WishlistService,
               private compareService: CompareService,
               private shoppingCartService: ShoppingCartService,
-              private villeService: VilleService) {
+              private cityService: CityService) {
   }
 
 
@@ -96,44 +93,44 @@ export class CheckoutComponent implements OnInit, OnChanges {
         }
       }]
     });
-    this.checkoutService.commande.subscribe(value => this.commande = value);
+    this.checkoutService.order.subscribe(value => this.order = value);
 
     this.regionService.regions.subscribe(value => {
       this.regions = value;
     });
-    this.typeLivraisonService.typeLivraisons.subscribe(value => {
-      this.typeLivraisons = value;
+    this.deliveryTypeService.deliveryType.subscribe(value => {
+      this.deliveryType = value;
     });
-    this.villeService.villes.subscribe(value => {
-      this.villes = value;
+    this.cityService.city.subscribe(value => {
+      this.cities = value;
     });
     this.userService.user.subscribe(value => {
-      this.adresse = value.profile.adresses.find(value1 => value1.type === 'pro');
+      this.address = value.profile.addresses.find(value1 => value1.type === 'pro');
     });
     this.firstFormGroup = this.formBuilder.group({
-      fName: [this.adresse.FName, Validators.required],
-      lName: [this.adresse.LName, Validators.required],
-      phone: [this.adresse.phone, Validators.required],
-      adresse: [this.adresse.address, Validators.required],
-      info: [this.adresse.info],
-      Region: [this.adresse.region_id, Validators.required],
-      ville: [this.adresse.ville_id, Validators.required],
+      fName: [this.address.FName, Validators.required],
+      lName: [this.address.LName, Validators.required],
+      phone: [this.address.phone, Validators.required],
+      address: [this.address.address, Validators.required],
+      info: [this.address.info],
+      Region: [this.address.region_id, Validators.required],
+      ville: [this.address.city_id, Validators.required],
     });
 
     /*  this.firstFormGroup = new FormGroup({
-      fName: new FormControl(this.adresse.FName, Validators.required),
-      lName: new FormControl(this.adresse.LName, Validators.required),
-      phone: new FormControl(this.adresse.phone, Validators.required),
-      adresse: new FormControl(this.adresse.address, Validators.required),
-      info: new FormControl(this.adresse.info),
-      Region: new FormControl(this.adresse.region_id, Validators.required),
-      ville: new FormControl(this.adresse.ville_id, Validators.required),
+      fName: new FormControl(this.address.FName, Validators.required),
+      lName: new FormControl(this.address.LName, Validators.required),
+      phone: new FormControl(this.address.phone, Validators.required),
+      address: new FormControl(this.address.address, Validators.required),
+      info: new FormControl(this.address.info),
+      Region: new FormControl(this.address.region_id, Validators.required),
+      city: new FormControl(this.address.ville_id, Validators.required),
     });*/
     this.secondFormGroup = this.formBuilder.group({
       typeL: ['', Validators.required]
     });
     this.thirdFormGroup = this.formBuilder.group({
-      typeP: [this.typePaiement, Validators.required]
+      typeP: [this.paymentType, Validators.required]
     });
   }
 
@@ -165,27 +162,27 @@ export class CheckoutComponent implements OnInit, OnChanges {
   }
 
   cash() {
-    const commande = new Commande();
-    const livraison = new Livraison();
-    livraison.typeLivraison_id = this.typeLivraison_id;
-    const paiement = new Paiement();
-    paiement.type = TypePaiement.cash;
-    commande.total = this.commande.total + this.tarif.montant;
-    commande.statut = Statuts.new;
-    commande.ligneCommandes = this.commande.ligneCommandes;
-    commande.livraison = livraison;
-    commande.paiement = paiement;
-    console.log(commande, this.tarif);
+    const order = new Order();
+    const delivery = new Delivery();
+    delivery.deliveryType_id = this.deliveryType_id;
+    const payment = new Payment();
+    payment.type = PaymentTypeEnum.cash;
+    order.total = this.order.total + this.rate.rising;
+    order.status = StatusEnums.new;
+    order.lineOrders = this.order.lineOrders;
+    order.delivery = delivery;
+    order.payment = payment;
+    console.log(order, this.rate);
     this.load = true;
-    this.adresseService.update(this.adresse).subscribe(value => {
-      this.commandeService.save(commande).subscribe(value2 => {
-        this.commandeValid = true;
+    this.addressService.update(this.address).subscribe(value => {
+      this.orderService.save(order).subscribe(value2 => {
+        this.orderValid = true;
         this.load = false;
         this.shoppingCartService.setProductPaginator([]);
         this.wishlistService.wishListIsModified = true;
         this.compareService.compareIsModified = true;
-        this.checkoutService.setCommande(null);
-        this.socket.emit('quantiteSetNotification', JSON.stringify(value2.articles));
+        this.checkoutService.setOrder(null);
+        this.socket.emit('quantitySetNotification', JSON.stringify(value2.articles));
         this.socket.emit('AdminOrderNotification', JSON.stringify(value2.idCmd));
         console.log(value2);
       }, error1 => {
@@ -196,10 +193,10 @@ export class CheckoutComponent implements OnInit, OnChanges {
 
 
   changeTL(id) {
-    console.log(this.adresse);
-    this.typeLivraison_id = id;
-    this.tarifService.get2(id, this.adresse.ville_id).subscribe(value => {
-      this.tarif = value;
+    console.log(this.address);
+    this.deliveryType_id = id;
+    this.rateService.get2(id, this.address.city_id).subscribe(value => {
+      this.rate = value;
     });
   }
 

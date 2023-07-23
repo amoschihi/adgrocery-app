@@ -23,7 +23,7 @@
                   <button class="items" mat-button (click)="searchByCategorie_id(cat.id)">{{cat.name |
                     uppercase}}
                   </button>
-                  <div *ngFor="let scat of cat.sous_categories">
+                  <div *ngFor="let scat of cat.subCategories">
                     <button class="subitems" (click)="searchBySousCategorie_id(scat.id)" mat-button>{{scat.name |
                       uppercase}}
                     </button>
@@ -57,9 +57,9 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="expansion-content">
-              <mat-selection-list (selectionChange)="changeMatieres(matieres_id)" #matieres_id>
-                <mat-list-option checkboxPosition="before" *ngFor="let matiere of matieres" [value]="matiere.id">
-                  {{matiere.name}}
+              <mat-selection-list (selectionChange)="changeMaterials(matieres_id)" #matieres_id>
+                <mat-list-option checkboxPosition="before" *ngFor="let material of materials" [value]="material.id">
+                  {{material.name}}
                 </mat-list-option>
               </mat-selection-list>
             </div>
@@ -117,14 +117,14 @@
           </div>
           <div class="d-flex align-items-center">
             <button mat-button [matMenuTriggerFor]="menu">{{ 'show' | translate }}
-              {{produitPaginate.per_page}}
+              {{productPaginate.per_page}}
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="change(produitPaginate.current_page,12)">12</button>
-              <button mat-menu-item (click)="change(produitPaginate.current_page,24)">24</button>
-              <button mat-menu-item (click)="change(produitPaginate.current_page,48)">48</button>
-              <button mat-menu-item (click)="change(produitPaginate.current_page,96)">96</button>
-              <button mat-menu-item (click)="change(produitPaginate.current_page,produitPaginate.total)">all</button>
+              <button mat-menu-item (click)="change(productPaginate.current_page,12)">12</button>
+              <button mat-menu-item (click)="change(productPaginate.current_page,24)">24</button>
+              <button mat-menu-item (click)="change(productPaginate.current_page,48)">48</button>
+              <button mat-menu-item (click)="change(productPaginate.current_page,96)">96</button>
+              <button mat-menu-item (click)="change(productPaginate.current_page,productPaginate.total)">all</button>
             </mat-menu>
 
             <button *ngIf="!phone" (click)="itemsProductsSize='items-products-size-3'" mat-icon-button>

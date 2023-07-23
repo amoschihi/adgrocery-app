@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {SnotifyService} from 'ng-snotify';
-import {t} from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +25,7 @@ export class ErrorsNotifService {
     };
   }
 
-  public handleErreur2(title: string, msg: string) {
+  public handleError2(title: string, msg: string) {
     return {
       title: title,
       body: msg,
@@ -42,9 +41,9 @@ export class ErrorsNotifService {
     this.notify.success(msg, {position: 'rightTop'});
   }
 
-  public handleErreur(msg: string) {
+  public handleError(msg: string) {
     this.notify.clear();
     this.notify.error(msg, {position: 'rightTop'});
-    // this.erreur = erreur.error.error;
+    // this.error = error.error.error;
   }
 }

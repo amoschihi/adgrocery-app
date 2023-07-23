@@ -1,12 +1,12 @@
 export class InfoSite {
   id: number;
-  tele: string;
+  tel: string;
   name: string;
   fax: string;
-  adresse: string;
+  address: string;
   x: string;
   y: string;
-  debutDeService: string;
-  finDeService: string;
+  serviceStart: string;
+  serviceEnd: string;
   email: string;
 }

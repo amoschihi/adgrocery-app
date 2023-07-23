@@ -22,9 +22,9 @@ export class ResponseResetPasswordComponent extends ModelErrors implements OnIni
     private userService: UserServicesService,
     private route: ActivatedRoute,
     private router: Router,
-    erreursMessagesService: ErrorsMessagesService
+    errorsMessagesService: ErrorsMessagesService
   ) {
-    super(erreursMessagesService);
+    super(errorsMessagesService);
     this.route.queryParams.subscribe(params => {
       this.myuser.token = params['token'];
     });
@@ -41,8 +41,8 @@ export class ResponseResetPasswordComponent extends ModelErrors implements OnIni
     this.userService.changePassword(this.myuser).subscribe(next => {
       console.log(next);
       this.handleResponse();
-    }, erreur => {
-      this.handleErreur(erreur);
+    }, error => {
+      this.handleError(error);
     });
   }
 
@@ -50,8 +50,8 @@ export class ResponseResetPasswordComponent extends ModelErrors implements OnIni
     this.router.navigateByUrl('/main/login');
   }
 
-  private handleErreur(erreur) {
-    // this.erreur = erreur.error.error;
+  private handleError(error) {
+    // this.error = error.error.error;
   }
 
 

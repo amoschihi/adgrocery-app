@@ -15,7 +15,7 @@ import {environment} from '../../../../../environments/environment';
 })
 export class NewsListComponent implements OnInit {
 
-  displayedColumns: string[] = ['image', 'Titre', 'subtitle', 'active', 'actionsColumn'];
+  displayedColumns: string[] = ['image', 'Title', 'Subtitle', 'active', 'actionsColumn'];
   news: News[] = [];
   newsPaginate: NewsPaginate = new NewsPaginate();
   url: string = environment.urlServeur2;

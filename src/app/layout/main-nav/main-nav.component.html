@@ -26,7 +26,7 @@
                   <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
                 </button>
                 <mat-icon *ngIf="!(isPhone$ | async)" class="mat-icon-sm">call</mat-icon>
-                <span *ngIf="!(isPhone$ | async)">(Tele : {{infoSite.tele}})</span>
+                <span *ngIf="!(isPhone$ | async)">(Tel: {{infoSite.tel}})</span>
               </div>
 
               <div class="top-menu">
@@ -193,11 +193,11 @@
                 <h3>{{ 'CONTACTINFORMATION' | translate| uppercase}}</h3>
                 <p class="infoFooter">
                   <mat-icon>location_on</mat-icon>
-                  <span>{{infoSite.adresse}}</span>
+                  <span>{{infoSite.address}}</span>
                 </p>
                 <p class="infoFooter">
                   <mat-icon>call</mat-icon>
-                  <span>{{infoSite.tele}}</span>
+                  <span>{{infoSite.tel}}</span>
                 </p>
                 <p class="infoFooter">
                   <mat-icon>call</mat-icon>
@@ -205,7 +205,7 @@
                 </p>
                 <p class="infoFooter">
                   <mat-icon>schedule</mat-icon>
-                  <span>8:00AM - 9:00PM</span>
+                  <span>{{ infoSite.serviceStart }} - {{ infoSite.serviceEnd }}</span>
                 </p>
               </div>
             </div>

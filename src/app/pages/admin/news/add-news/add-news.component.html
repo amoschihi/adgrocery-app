@@ -9,16 +9,16 @@
       <div class="col">
         <div class="row">
           <mat-form-field class="col">
-            <input [formControl]="name" name="Titre" required matInput type="text" [(ngModel)]="news.title"
+            <input [formControl]="name" name="title" required matInput type="text" [(ngModel)]="news.title"
                    placeholder="Title">
             <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
           </mat-form-field>
           <mat-form-field class="col">
-            <input name="sousTitre" required matInput type="text" [(ngModel)]="news.subTitle"
-                   placeholder="Subtitle">
+            <input name="subTitle" required matInput type="text" [(ngModel)]="news.subTitle"
+                   placeholder="Sub Title">
           </mat-form-field>
           <div class="col">
-            <mat-checkbox name="avtive" [(ngModel)]="news.active">Active</mat-checkbox>
+            <mat-checkbox name="active" [(ngModel)]="news.active">Active</mat-checkbox>
           </div>
         </div>
       </div>

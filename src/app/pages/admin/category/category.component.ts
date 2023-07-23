@@ -11,7 +11,7 @@ import {CategoryService} from '../../../services/category.service';
 export class CategoryComponent implements OnInit {
 
 
-  categorys: Category[];
+  categories: Category[];
   displayedColumns: string[] = ['name', 'sex', 'actionsColumn'];
   public dataSourceCategory: Category[];
   public editCacheCategory = {};
@@ -22,7 +22,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     this.categoryService.categories.subscribe(value => {
-      this.categorys = value;
+      this.categories = value;
       this.dataSourceCategory = value;
       this.initEditCache();
     });
@@ -127,10 +127,7 @@ export class CategoryComponent implements OnInit {
   }
 
   isEquivalent(a, b) {
-    if (a.name === b.name && a.sexe === b.sexe) {
-      return true;
-    }
-    return false;
+    return a.name === b.name && a.sex === b.sex;
   }
 
 }

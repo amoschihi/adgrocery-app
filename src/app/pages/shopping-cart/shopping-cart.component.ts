@@ -86,25 +86,25 @@ export class ShoppingCartComponent implements OnInit {
   getTotal(): number {
     this.order.total = this.dataSource.data
       .map(value => (!value.product.discount) ?
-        value.product.prix * value.quantity :
-        (value.product.prix - value.product.prix * (value.product.discount.percentageValue / 100)) * value.quantity)
+        value.product.price * value.quantity :
+        (value.product.price - value.product.price * (value.product.discount.percentageValue / 100)) * value.quantity)
       .reduce((previousValue, currentValue) => previousValue + currentValue);
     return this.order.total;
   }
 
   getTVA(): number {
     return this.dataSource.data
-      .map(value => (value.product.tva) ? value.product.tva * value.quantity : 0)
+      .map(value => (value.product.vat) ? value.product.vat * value.quantity : 0)
       .reduce((previousValue, currentValue) => previousValue + currentValue);
   }
 
   calcSubTotal(element: LineOrder) {
-    element.subTotal = element.product.prix * element.quantity;
+    element.subTotal = element.product.price * element.quantity;
     return element.subTotal;
   }
 
   calcSubTotalWithReduction(element: LineOrder) {
-    element.subTotal = (element.product.prix - element.product.prix *
+    element.subTotal = (element.product.price - element.product.price *
       (element.product.discount.percentageValue / 100)) * element.quantity;
     return element.subTotal;
   }

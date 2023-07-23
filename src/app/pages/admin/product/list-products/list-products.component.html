@@ -29,13 +29,13 @@
         {{element.name}}
       </td>
     </ng-container>
-    <ng-container matColumnDef="prix">
+    <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef> {{ 'price' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         {{element.price | currency}}
       </td>
     </ng-container>
-    <ng-container matColumnDef="Quantite">
+    <ng-container matColumnDef="quantity">
       <th mat-header-cell *matHeaderCellDef> {{ 'Quantity' | translate }}</th>
       <td mat-cell *matCellDef="let element">
 
@@ -51,7 +51,7 @@
       </th>
       <td class="" mat-cell *matCellDef="let element" style="width: 118px;min-width: 118px">
         <div class="d-flex flex-row justify-content-between flex-nowrap">
-          <a mat-mini-fab color="primary" mat-icon-button routerLink="/main/admin/product/updateproduct/{{element.id}}">
+          <a mat-mini-fab color="primary" mat-icon-button routerLink="/main/admin/product/updateProduct/{{element.id}}">
             <mat-icon>edit</mat-icon>
           </a>
           <a mat-mini-fab color="warn" mat-icon-button (click)="delete(element.id)">

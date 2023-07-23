@@ -38,7 +38,7 @@ export class CheckoutComponent implements OnInit, OnChanges {
   regions: Region[];
   cities: City[];
   order: Order;
-  deliveryType: DeliveryType[];
+  deliveryTypes: DeliveryType[];
   deliveryType_id: number;
   rate: Rate;
   paymentType = 0;
@@ -72,7 +72,7 @@ export class CheckoutComponent implements OnInit, OnChanges {
     this.payPalConfig = new PayPalConfig(PayPalIntegrationType.ClientSideREST, PayPalEnvironment.Sandbox, {
       commit: true,
       client: {
-        sandbox: 'AbI4yMNwcUg9bMnX3C6-cGiZiGKHdECsCGDOqt8DczcOQCnpeP1q8b4jRwLIO7FSY_MoK4plfSjhESwT'
+        sandbox: 'AfNxM7bcjiSWxYQV6F5_C5XFCwoQiVO-GfZ53YvTlY0VWgEmJbZw6jR5tUb2wtCCJPEo172hAIxuF-rE'
       },
       button: {
         label: 'paypal',
@@ -99,7 +99,7 @@ export class CheckoutComponent implements OnInit, OnChanges {
       this.regions = value;
     });
     this.deliveryTypeService.deliveryType.subscribe(value => {
-      this.deliveryType = value;
+      this.deliveryTypes = value;
     });
     this.cityService.city.subscribe(value => {
       this.cities = value;
@@ -114,7 +114,7 @@ export class CheckoutComponent implements OnInit, OnChanges {
       address: [this.address.address, Validators.required],
       info: [this.address.info],
       Region: [this.address.region_id, Validators.required],
-      ville: [this.address.city_id, Validators.required],
+      city: [this.address.city_id, Validators.required],
     });
 
     /*  this.firstFormGroup = new FormGroup({
@@ -138,7 +138,7 @@ export class CheckoutComponent implements OnInit, OnChanges {
     this.payPalConfig = new PayPalConfig(PayPalIntegrationType.ClientSideREST, PayPalEnvironment.Sandbox, {
       commit: true,
       client: {
-        sandbox: 'AbI4yMNwcUg9bMnX3C6-cGiZiGKHdECsCGDOqt8DczcOQCnpeP1q8b4jRwLIO7FSY_MoK4plfSjhESwT'
+        sandbox: 'AfNxM7bcjiSWxYQV6F5_C5XFCwoQiVO-GfZ53YvTlY0VWgEmJbZw6jR5tUb2wtCCJPEo172hAIxuF-rE'
       },
       button: {
         label: 'paypal',
@@ -167,7 +167,7 @@ export class CheckoutComponent implements OnInit, OnChanges {
     delivery.deliveryType_id = this.deliveryType_id;
     const payment = new Payment();
     payment.type = PaymentTypeEnum.cash;
-    order.total = this.order.total + this.rate.rising;
+    order.total = this.order.total + this.rate.amount;
     order.status = StatusEnums.new;
     order.lineOrders = this.order.lineOrders;
     order.delivery = delivery;

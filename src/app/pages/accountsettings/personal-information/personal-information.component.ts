@@ -69,7 +69,7 @@ export class PersonalInformationComponent extends ModelErrors implements OnInit 
         this.userService.logout().subscribe(next => {
           this.tokenService.remove();
           this.authService.changeAuthStatus(false);
-          this.route.navigateByUrl('/login');
+          this.route.navigateByUrl('/main/login');
         }, error1 => {
           console.log(error1);
         });

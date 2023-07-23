@@ -2,7 +2,7 @@
   <form #myform class="col-sm-11 col-md-9 col-lg-9">
     <div class="row">
       <div class="col text-center">
-        <h3>Modification</h3>
+        <h3>Update Product</h3>
       </div>
     </div>
     <div class="row">
@@ -15,19 +15,19 @@
           </mat-form-field>
           <mat-form-field class="col">
             <input [formControl]="price" name="{{ 'price' | translate }}" required matInput type="text"
-                   [(ngModel)]="product.prix"
+                   [(ngModel)]="product.price"
                    placeholder="Price">
-            <mat-error *ngIf="prix.invalid">{{getErrorMessagePrix()}}</mat-error>
+            <mat-error *ngIf="price.invalid">{{getErrorMessagePrix()}}</mat-error>
           </mat-form-field>
+<!--          <mat-form-field class="col">-->
+<!--            <input name="vat" required matInput type="text" [(ngModel)]="product.vat"-->
+<!--                   placeholder="{{ 'VAT' | translate }}">-->
+<!--          </mat-form-field>-->
           <mat-form-field class="col">
-            <input name="tva" required matInput type="text" [(ngModel)]="Product.tva"
-                   placeholder="{{ 'VAT' | translate }}">
-          </mat-form-field>
-          <mat-form-field class="col">
-            <mat-select multiple [(value)]="matieres_id"
+            <mat-select multiple [(value)]="materials_id"
                         placeholder="{{ 'material' | translate }}">
-              <mat-option *ngFor="let matiere of matieres"
-                          [value]="matiere.id">{{matiere.name}}
+              <mat-option *ngFor="let mat of materials"
+                          [value]="mat.id">{{mat.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -49,11 +49,11 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field class="col">
-            <input name="taille" matInput type="text" [(ngModel)]="Product.article.taille"
+            <input name="size" matInput type="text" [(ngModel)]="product.article.size"
                    placeholder="{{ 'size' | translate }}">
           </mat-form-field>
           <mat-form-field class="col">
-            <input [formControl]="stock" name="stock" required matInput type="text" [(ngModel)]="Product.article.stock"
+            <input [formControl]="stock" name="stock" required matInput type="text" [(ngModel)]="product.article.stock"
                    placeholder="Stock">
             <mat-error *ngIf="stock.invalid">{{getErrorMessageStock()}}</mat-error>
           </mat-form-field>
@@ -65,24 +65,24 @@
       <div class="col">
         <div class="row">
           <mat-form-field class="col">
-            <mat-select [(value)]="Product.reduction_id"
+            <mat-select [(value)]="product.discount_id"
                         placeholder="{{ 'Discount' | translate }}">
               <mat-option>0%</mat-option>
-              <mat-option *ngFor="let reduction of reductions" [value]="reduction.id">{{reduction.valeurPourcentage}} %
+              <mat-option *ngFor="let discount of discounts" [value]="discount.id">{{discount.percentageValue}} %
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="col">
-            <mat-select #cat (valueChange)="changeSousCat(cat)" [required]="true" [(value)]="Product.categorie_id"
+            <mat-select #cat (valueChange)="changeSousCat(cat)" [required]="true" [(value)]="product.category_id"
                         placeholder="{{ 'category' | translate }}">
-              <mat-option *ngFor="let categorie of categories" [value]="categorie.id">{{categorie.name}}
+              <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="col">
-            <mat-select [(value)]="Product.sousCategorie_id"
+            <mat-select [(value)]="product.subCategory_id"
                         placeholder="{{ 'sub-category' | translate }}">
-              <mat-option *ngFor="let sousCategorie of sousCategories" [value]="sousCategorie.id">{{sousCategorie.name}}
+              <mat-option *ngFor="let sub of subCategories" [value]="sub.id">{{sub.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -103,7 +103,7 @@
                   </button>
                 </div>
                 <div class="file-input-drag d-flex flex-row flex-wrap">
-                  <div *ngFor="let image of Product.article.images" class="file-input-frame d-flex flex-column">
+                  <div *ngFor="let image of product.article.images" class="file-input-frame d-flex flex-column">
                     <div class="d-flex justify-content-end">
                       <button type="button" (click)="remove(image)" class="icon-12 file-input-x" mat-icon-button
                               color="primary">
@@ -140,8 +140,8 @@
       <div class="col">
         <div class="row">
           <mat-form-field class="col">
-            <textarea name="descriptif" matInput type="text" [(ngModel)]="Product.descriptif"
-                      placeholder="descriptif"></textarea>
+            <textarea name="description" matInput type="text" [(ngModel)]="product.description"
+                      placeholder="description"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -149,7 +149,7 @@
 
     <div class="row">
       <div class="col text-center">
-        <button mat-raised-button [disabled]="stock.invalid||name.invalid||prix.invalid"
+        <button mat-raised-button [disabled]="stock.invalid||name.invalid||price.invalid"
                 (click)="save(myform)"
                 color="primary">{{ 'submit' | translate }}
         </button>

@@ -22,7 +22,7 @@
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef> {{ 'price' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{element.prix | currency}}
+        {{element.price | currency}}
       </td>
     </ng-container>
     <ng-container matColumnDef="availability">
@@ -40,8 +40,8 @@
                   mat-icon-button>
             <mat-icon>remove</mat-icon>
           </button>
-          <span *ngIf="element.ligneCommande">{{element.ligneCommande.quantite}}  </span>
-          <span *ngIf="!element.ligneCommande">1</span>
+          <span *ngIf="element.lineOrder">{{element.lineOrder.quantity}}  </span>
+          <span *ngIf="!element.lineOrder">1</span>
           <button
             (click)="addQu(element)"
             mat-icon-button>
@@ -75,9 +75,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator #paginator class="shadow1"
-                 [pageIndex]="produitPaginate.current_page-1"
-                 [pageSize]="produitPaginate.per_page"
-                 [length]="produitPaginate.total"
+                 [pageIndex]="productPaginate.current_page-1"
+                 [pageSize]="productPaginate.per_page"
+                 [length]="productPaginate.total"
                  [pageSizeOptions]="[12, 24]"
                  showFirstLastButtons (page)="change(paginator)"></mat-paginator>
 </div>

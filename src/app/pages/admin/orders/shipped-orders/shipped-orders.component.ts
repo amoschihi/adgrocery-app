@@ -3,7 +3,6 @@ import {Address} from '../../../../models/address';
 import {Order} from '../../../../models/order';
 import {ErrorsNotifService} from '../../../../services/errors-notif.service';
 import {SnotifyService} from 'ng-snotify';
-import {AppComponent} from '../../../../app.component';
 import {Observable} from 'rxjs';
 import {OrderAdminService} from '../../../../services/order-admin.service';
 import {OrderPaginate} from '../../../../models/order-paginate';

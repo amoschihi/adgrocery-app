@@ -2,34 +2,34 @@
   <input name="Name" required matInput type="text" #searchv (keyup)="search(searchv.value)"
          placeholder="Search">
 </mat-form-field>
-<div *ngIf="!actualites.length" class="d-flex justify-content-center align-items-center"
+<div *ngIf="!news.length" class="d-flex justify-content-center align-items-center"
      style="height: 200px">
   <button class="Roundedbuttons" mat-raised-button color="warn">YOU HAVE NO ITEMS .</button>
 </div>
-<div *ngIf="actualites.length">
+<div *ngIf="news.length">
 
 
-  <table mat-table [dataSource]="actualites" class=" shadow1 myTable">
+  <table mat-table [dataSource]="news" class=" shadow1 myTable">
 
     <!-- Name Column -->
     <ng-container matColumnDef="image">
       <th mat-header-cell *matHeaderCellDef> Image</th>
       <td style="width: 200px" mat-cell *matCellDef="let element">
-        <a class="img-product"
+        <a class="img-product" *ngIf="element.image"
            [ngStyle]="{'background': 'url('+url.concat(element.image.src)+') center','background-size': 'cover'}">
         </a>
       </td>
     </ng-container>
-    <ng-container matColumnDef="Titre">
+    <ng-container matColumnDef="Title">
       <th mat-header-cell *matHeaderCellDef> Title</th>
       <td mat-cell *matCellDef="let element">
-        {{element.titre}}
+        {{element.title}}
       </td>
     </ng-container>
-    <ng-container matColumnDef="subtitle">
+    <ng-container matColumnDef="Subtitle">
       <th mat-header-cell *matHeaderCellDef> Sub Title</th>
       <td mat-cell *matCellDef="let element">
-        {{element.sousTitre}}
+        {{element.subTitle}}
       </td>
     </ng-container>
     <ng-container matColumnDef="active">
@@ -50,7 +50,7 @@
       <td class="" mat-cell *matCellDef="let element" style="width: 118px;min-width: 118px">
         <div class="d-flex flex-row justify-content-between flex-nowrap">
           <a mat-mini-fab color="primary" mat-icon-button
-             routerLink="/main/admin/actualite/updateActualite/{{element.id}}">
+             routerLink="/main/admin/news/updateNews/{{element.id}}">
             <mat-icon>edit</mat-icon>
           </a>
           <a mat-mini-fab color="warn" mat-icon-button (click)="delete(element.id)">
@@ -63,9 +63,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator #paginator class="shadow1"
-                 [pageIndex]="actualitePaginate.current_page-1"
-                 [pageSize]="actualitePaginate.per_page"
-                 [length]="actualitePaginate.total"
+                 [pageIndex]="newsPaginate.current_page-1"
+                 [pageSize]="newsPaginate.per_page"
+                 [length]="newsPaginate.total"
                  [pageSizeOptions]="[12, 24]"
                  showFirstLastButtons (page)="change(paginator)"></mat-paginator>
 </div>

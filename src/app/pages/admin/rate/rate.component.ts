@@ -17,7 +17,7 @@ export class RateComponent implements OnInit {
 
 
   rates: Rate[];
-  displayedColumns: string[] = ['name', 'ville', 'actionsColumn'];
+  displayedColumns: string[] = ['name', 'city', 'actionsColumn'];
   public dataSource: Rate[];
   public cities: City[];
   public deliveryTypes: DeliveryType[];
@@ -54,7 +54,7 @@ export class RateComponent implements OnInit {
     });
   }
 
-  onChangeTypeLivraison_id(id) {
+  onChangeDeliveryType_id(id) {
     this.deliveryType_id = id;
     this.rateService.get(this.deliveryType_id, true).subscribe(value => {
       this.rates = value ? value : [];
@@ -154,14 +154,14 @@ export class RateComponent implements OnInit {
 
   add() {
     this.addRate = true;
-    this.dataSource = [{id: -1, rising: 0, deliveryType_id: this.deliveryType_id, city_id: 0}, ...this.dataSource];
+    this.dataSource = [{id: -1, amount: 0, deliveryType_id: this.deliveryType_id, city_id: 0}, ...this.dataSource];
     this.initEditCache();
     this.editCache['-1'].edit = true;
     // this.editCache['-1'].data.id = null;
   }
 
   isEquivalent(a, b) {
-    return a.montant === b.montant && a.ville_id === b.ville_id;
+    return a.amount === b.amount && a.city_id === b.city_id;
   }
 
 }

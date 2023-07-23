@@ -25,7 +25,7 @@
 
               </mat-form-field>
               <mat-form-field class="col">
-                <input formControlName="adresse" name="Adresse" [(ngModel)]="address.address" matInput type="text"
+                <input formControlName="address" name="Adresse" [(ngModel)]="address.address" matInput type="text"
                        placeholder="{{ 'address' | translate }}" required>
 
               </mat-form-field>
@@ -46,7 +46,7 @@
 
               </mat-form-field>
               <mat-form-field class="col">
-                <mat-select formControlName="ville"
+                <mat-select formControlName="city"
                             placeholder="{{ 'city' | translate }}" [(value)]="address.city_id" required>
                   <mat-option *ngFor="let c of cities" [value]="c.id">{{c.name}}
                   </mat-option>
@@ -70,23 +70,23 @@
         <ng-template class="title" matStepLabel>{{ 'Deliverymethod' | translate |uppercase }}</ng-template>
         How do you want your order to be delivered?
         <mat-radio-group required formControlName="typeL" #test class="d-flex flex-column">
-          <div *ngFor="let typeLivraison of typeLivraisons">
-            <mat-radio-button class="mt-12" (change)="changeTL(typeLivraison.id)" [value]="typeLivraison.id">
-              {{typeLivraison.name}}
+          <div *ngFor="let type of deliveryTypes">
+            <mat-radio-button class="mt-12" (change)="changeTL(type.id)" [value]="type.id">
+              {{type.name}}
             </mat-radio-button>
-            <p class="mt-12 text-muted">{{typeLivraison.info}}</p>
+            <p class="mt-12 text-muted">{{type.info}}</p>
             <mat-divider class="mt-12"></mat-divider>
           </div>
         </mat-radio-group>
-        <div *ngIf="tarif" class="d-flex flex-column mtb-20">
-          <div *ngIf="tarif" class="d-flex flex-row flex-nowrap justify-content-between ">
+        <div *ngIf="rate" class="d-flex flex-column mtb-20">
+          <div *ngIf="rate" class="d-flex flex-row flex-nowrap justify-content-between ">
             <div>
               <p>{{ 'subtotal' | translate }} :</p>
-              <p class="text-muted">Montant de livraison :</p>
+              <p class="text-muted">Delivery fees :</p>
             </div>
             <div class="text-right">
-              <p>{{commande.total | currency}}</p>
-              <p class="text-muted">{{tarif.montant | currency}}</p>
+              <p>{{order.total | currency}}</p>
+              <p class="text-muted">{{rate.amount | currency}}</p>
             </div>
           </div>
           <mat-divider class="mtb-12"></mat-divider>
@@ -95,7 +95,7 @@
               <p class="new-price">{{ 'total' | translate }} :</p>
             </div>
             <div class="text-right">
-              <p class="new-price">{{commande.total+tarif.montant | currency}}</p>
+              <p class="new-price">{{order.total+rate.amount | currency}}</p>
             </div>
           </div>
         </div>

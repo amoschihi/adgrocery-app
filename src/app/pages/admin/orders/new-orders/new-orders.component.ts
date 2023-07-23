@@ -13,9 +13,9 @@ import {AuthentificationService} from '../../../../services/authentification.ser
 import {Socket} from 'ngx-socket-io';
 
 @Component({
-  selector: 'app-news-orders',
-  templateUrl: './news-orders.component.html',
-  styleUrls: ['./news-orders.component.css'],
+  selector: 'app-new-orders',
+  templateUrl: './new-orders.component.html',
+  styleUrls: ['./new-orders.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
@@ -24,7 +24,7 @@ import {Socket} from 'ngx-socket-io';
     ]),
   ],
 })
-export class NewsOrdersComponent implements OnInit {
+export class NewOrdersComponent implements OnInit {
 
   displayedColumns: string[] = ['Client', 'Date', 'Status', 'PaymentType', 'DeliveryType', 'Total', 'actionsColumn'];
 

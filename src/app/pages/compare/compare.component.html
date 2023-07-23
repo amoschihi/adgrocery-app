@@ -20,7 +20,7 @@
     <div class="mat-row">
       <div class="mat-cell ">{{ 'price' | translate }}</div>
       <div class="mat-cell new-price" *ngFor="let element of dataSource">
-        {{element.prix}}
+        {{element.price | currency}}
       </div>
     </div>
     <div class="mat-row">
@@ -33,7 +33,7 @@
     <div class="mat-row">
       <div class="mat-cell">{{ 'Description' | translate }}</div>
       <div class="mat-cell text-muted" *ngFor="let element of dataSource">
-        {{element.descriptif}}
+        {{element.description}}
       </div>
     </div>
     <div class="mat-row">

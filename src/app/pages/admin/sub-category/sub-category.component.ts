@@ -28,12 +28,10 @@ export class SubCategoryComponent implements OnInit {
       this.subCategories = value;
       this.dataSource = this.subCategories;
       this.initEditCache();
-      console.log('ja');
       this.categorieService.get(true).subscribe(value1 => {
       });
     });
     this.categorieService.categories.subscribe(value => {
-      console.log('ja2');
       this.categories = value;
     });
   }
@@ -141,10 +139,7 @@ export class SubCategoryComponent implements OnInit {
   }
 
   isEquivalent(a, b) {
-    if (a.name === b.name && a.categorie_id === b.categorie_id) {
-      return true;
-    }
-    return false;
+    return a.name === b.name && a.category_id === b.category_id;
   }
 
 

@@ -5,8 +5,8 @@ import {Discount} from './discount';
 
 export class Product {
   id: number;
-  prix: number;
-  tva: number;
+  price: number;
+  vat: number;
   name: string;
   description: string;
   brand_id: number;

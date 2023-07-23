@@ -1,9 +1,9 @@
 <div class="d-flex flex-column">
   <mat-form-field>
-    <mat-select #typeLivraison (valueChange)="onChangeTypeLivraison_id(typeLivraison.value)"
-                [(value)]="typeLivraison_id"
+    <mat-select #deliveryType (valueChange)="onChangeDeliveryType_id(deliveryType.value)"
+                [(value)]="deliveryType_id"
                 placeholder="Delivery type">
-      <mat-option *ngFor="let typeLivraison of typeLivraisons" [value]="typeLivraison.id">{{typeLivraison.name}}
+      <mat-option *ngFor="let type of deliveryTypes" [value]="type.id">{{type.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -19,29 +19,29 @@
           [ngClass]="editCache[element.id.toString()].edit ?'mat-form-field-not-disabled':''" mat-placeholder=""
           floatLabel="never">
           <input [readonly]="!editCache[element.id.toString()].edit" placeholder="Rate"
-                 [(ngModel)]="editCache[element.id.toString()].data.montant" matInput>
+                 [(ngModel)]="editCache[element.id.toString()].data.amount" matInput>
           <span matSuffix>$</span>
 
         </mat-form-field>
       </td>
     </ng-container>
-    <ng-container matColumnDef="ville">
+    <ng-container matColumnDef="city">
       <th mat-header-cell *matHeaderCellDef> {{ 'city' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <mat-form-field
           [ngClass]="editCache[element.id.toString()].edit ?'mat-form-field-not-disabled':''" mat-placeholder=""
           floatLabel="never">
           <mat-select [disabled]="!editCache[element.id.toString()].edit"
-                      [(value)]="editCache[element.id.toString()].data.ville_id"
+                      [(value)]="editCache[element.id.toString()].data.city_id"
                       placeholder="{{ 'city' | translate }}">
-            <mat-option *ngFor="let ville of villes" [value]="ville.id">{{ville.name}}
+            <mat-option *ngFor="let city of cities" [value]="city.id">{{city.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </td>
     </ng-container>
     <ng-container matColumnDef="actionsColumn">
-      <th class="wc-100" mat-header-cell *matHeaderCellDef><a color="primary" mat-icon-button *ngIf="!addTarif"
+      <th class="wc-100" mat-header-cell *matHeaderCellDef><a color="primary" mat-icon-button *ngIf="!addRate"
                                                               (click)="add()">
         <mat-icon>add_circle</mat-icon>
       </a></th>

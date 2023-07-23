@@ -127,10 +127,7 @@ export class ColorComponent implements OnInit {
   }
 
   isEquivalent(a, b) {
-    if (a.name === b.name) {
-      return true;
-    }
-    return false;
+    return a.name === b.name;
   }
 
 

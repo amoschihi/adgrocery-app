@@ -96,7 +96,7 @@ const appRoutes: Routes = [
       }, {
         path: 'whoarewe',
         component: WhoareweComponent,
-        data: {breadcrumbs: 'whoarewe'}
+        data: {breadcrumbs: 'Who are we'}
       }, {
         path: 'home',
         component: HomeComponent,
@@ -115,28 +115,28 @@ const appRoutes: Routes = [
       }, {
         path: 'products',
         component: ProductComponent,
-        data: {breadcrumbs: 'AllProducts'},
+        data: {breadcrumbs: 'All Products'},
         resolve: {
           productPaginate: ProductsResolverService
         }
       }, {
         path: 'wishlist',
         component: WishlistComponent,
-        data: {breadcrumbs: 'wishlist'},
+        data: {breadcrumbs: 'Wishlist'},
         resolve: {
           productPaginate: ProductsWishlistResolverService
         }
       }, {
         path: 'ShoppingCart',
         component: ShoppingCartComponent,
-        data: {breadcrumbs: 'shoppingcart'},
+        data: {breadcrumbs: 'Shopping Cart'},
         resolve: {
           products: ProductsShoppingCartResolverService
         }
       }, {
         path: 'compare',
         component: CompareComponent,
-        data: {breadcrumbs: 'compare'},
+        data: {breadcrumbs: 'Compare'},
         resolve: {
           productPaginate: ProductsCompareResolverService
         }
@@ -158,7 +158,7 @@ const appRoutes: Routes = [
         path: 'login',
         component: LoginComponent,
         canActivate: [BeforeLoginService],
-        data: {breadcrumbs: 'SignIn'},
+        data: {breadcrumbs: 'Sign In'},
         children: [
           {
             path: 'test',
@@ -171,90 +171,90 @@ const appRoutes: Routes = [
         component: MenuAdminComponent,
         canActivate: [AfterLoginAdminService],
         canActivateChild: [AfterLoginAdminService],
-        data: {breadcrumbs: 'administratorspace'},
+        data: {breadcrumbs: 'Administrator Space'},
         children: [
           {
             path: 'infoSite',
             component: InfoSiteComponent,
-            data: {breadcrumbs: 'Siteinformation'},
+            data: {breadcrumbs: 'Site Information'},
             resolve: {
               infoSite: InfoSiteResolverService
             }
           }, {
-            path: 'typeLivraison2',
-            redirectTo: 'typeLivraison',
+            path: 'deliveryType2',
+            redirectTo: 'deliveryType',
             pathMatch: 'full'
           }, {
-            path: 'typeLivraison',
+            path: 'deliveryType',
             component: DeliveryTypeComponent,
-            data: {breadcrumbs: 'Deliverymethod'},
+            data: {breadcrumbs: 'Delivery Method'},
             resolve: {
               valid: DeliveryTypeResolverService,
             }
           }, {
-            path: 'tarif',
+            path: 'rate',
             component: RateComponent,
             data: {breadcrumbs: 'Rate'},
             resolve: {
-              typeLivraison_id: RateResolverService,
+              deliveryType_id: RateResolverService,
             }
           }, {
-            path: 'commandes',
+            path: 'orders',
             component: OrdersComponent,
-            data: {breadcrumbs: 'listoforders'},
+            data: {breadcrumbs: 'Orders'},
             resolve: {
-              typeLivraison_id: OrderAdminResolverService,
+              deliveryType_id: OrderAdminResolverService,
             }
           }, {
             path: 'color',
             component: ColorComponent,
-            data: {breadcrumbs: 'Listofcolor'},
+            data: {breadcrumbs: 'Colors'},
             resolve: {
               valid: ColorResolverService,
             }
           }, {
-            path: 'reduction',
+            path: 'discount',
             component: DiscountComponent,
-            data: {breadcrumbs: 'ListReduction'},
+            data: {breadcrumbs: 'Discounts'},
             resolve: {
               valid: DiscountResolverService,
             }
           }, {
             path: 'material',
             component: MaterialComponent,
-            data: {breadcrumbs: 'Listofmaterial'},
+            data: {breadcrumbs: 'Materials'},
             resolve: {
               valid: MaterialResolverService,
             }
           }, {
             path: 'region',
             component: RegionComponent,
-            data: {breadcrumbs: 'listofregions'},
+            data: {breadcrumbs: 'Regions'},
             resolve: {
               valid: RegionResolverService,
             }
           }, {
-            path: 'ville',
+            path: 'city',
             component: CityComponent,
-            data: {breadcrumbs: 'Listofcity'},
+            data: {breadcrumbs: 'Cities'},
             resolve: {
               valid: CityResolverService,
             }
           }, {
             path: 'brand',
             component: BrandComponent,
-            data: {breadcrumbs: 'List Brand'},
+            data: {breadcrumbs: 'Brand List'},
           }, {
             path: 'category',
             component: CategoryComponent,
-            data: {breadcrumbs: 'Listofcategory'},
+            data: {breadcrumbs: 'Category List'},
             resolve: {
               valid: CategoryResolverService,
             }
           }, {
-            path: 'sousCategorie',
+            path: 'subCategory',
             component: SubCategoryComponent,
-            data: {breadcrumbs: 'Listofsubcategory'},
+            data: {breadcrumbs: 'Subcategory List'},
             resolve: {
               valid: SubCategoryResolverService,
             }
@@ -277,47 +277,47 @@ const appRoutes: Routes = [
               }, {
                 path: 'addProduct',
                 component: AddProductComponent,
-                data: {breadcrumbs: 'newproduct'},
+                data: {breadcrumbs: 'Add Product'},
               }, {
                 path: 'updateProduct/:id',
                 component: UpdateProductComponent,
-                data: {breadcrumbs: 'Modification'},
+                data: {breadcrumbs: 'Update Product'},
                 resolve: {
                   product: ProductResolverService
                 }
               }, {
                 path: 'listProducts',
                 component: ListProductsComponent,
-                data: {breadcrumbs: 'AllProducts'},
+                data: {breadcrumbs: 'All Products'},
                 resolve: {
                   product: ProductsAdminResolverService
                 }
               },
             ],
           }, {
-            path: 'actualite',
+            path: 'news',
             component: NewsComponent,
-            data: {breadcrumbs: 'actuality'},
+            data: {breadcrumbs: 'news'},
             children: [
               {
                 path: '',
-                redirectTo: 'addActualite',
+                redirectTo: 'addNews',
                 pathMatch: 'full'
               }, {
-                path: 'addActualite',
+                path: 'addNews',
                 component: AddNewsComponent,
-                data: {breadcrumbs: 'newactuality'},
+                data: {breadcrumbs: 'Add News'},
               }, {
-                path: 'updateActualite/:id',
+                path: 'updateNews/:id',
                 component: UpdateNewsComponent,
-                data: {breadcrumbs: 'Modification'},
+                data: {breadcrumbs: 'Update News'},
                 resolve: {
-                  actualite: NewsUpdateResolverService
+                  news: NewsUpdateResolverService
                 }
               }, {
-                path: 'listActualites',
+                path: 'newsList',
                 component: NewsListComponent,
-                data: {breadcrumbs: 'List Actualites'},
+                data: {breadcrumbs: 'News List'},
                 resolve: {
                   valid: NewsListResolverService
                 }
@@ -368,11 +368,11 @@ const appRoutes: Routes = [
             redirectTo: 'dashboard',
             pathMatch: 'full'
           }, {
-            path: 'commandes',
+            path: 'orders',
             component: OrdersComponent,
-            data: {breadcrumbs: 'listoforders'},
+            data: {breadcrumbs: 'Orders List'},
             resolve: {
-              typeLivraison_id: OrderAdminResolverService,
+              deliveryType_id: OrderAdminResolverService,
             }
           }, {
             path: 'addresses',

@@ -21,13 +21,13 @@
         <div class="col-11 col-sm-6">
           <h2>{{product.name}}</h2>
           <div>
-            <p><span>{{ 'category' | translate }}: </span><span>{{product.categorie.name}}</span></p>
+            <p><span>{{ 'category' | translate }}: </span><span>{{product.category.name}}</span></p>
             <p><span>{{ 'Availibility' | translate }}: </span><span *ngIf="product.article.stock>0">{{ 'Instock' | translate }}</span><span
               *ngIf="product.article.stock===0">{{ 'ondemand' | translate }}</span></p>
           </div>
 
           <div class="descriptif-container">
-            <p>{{product.descriptif}}</p>
+            <p>{{product.description}}</p>
           </div>
           <div class="divider"></div>
           <h2>$175</h2>
@@ -39,8 +39,8 @@
                         mat-icon-button>
                   <mat-icon>remove</mat-icon>
                 </button>
-                <span *ngIf="product.ligneCommande">{{product.ligneCommande.quantite}}  </span>
-                <span *ngIf="!product.ligneCommande">1</span>
+                <span *ngIf="product.lineOrder">{{product.lineOrder.quantity}}  </span>
+                <span *ngIf="!product.lineOrder">1</span>
                 <button
                   (click)="addQu(product)"
                   mat-icon-button>

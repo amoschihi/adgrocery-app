@@ -78,7 +78,7 @@ import {DeliveryTypeComponent} from './pages/admin/delivery-type/delivery-type.c
 import {RateComponent} from './pages/admin/rate/rate.component';
 import {AuthenticationInterceptorService} from './services/authentication-interceptor.service';
 import {OrdersComponent} from './pages/admin/orders/orders.component';
-import {NewsOrdersComponent} from './pages/admin/orders/news-orders/news-orders.component';
+import {NewOrdersComponent} from './pages/admin/orders/new-orders/new-orders.component';
 import {ShippedOrdersComponent} from './pages/admin/orders/shipped-orders/shipped-orders.component';
 import {DeliveredOrdersComponent} from './pages/admin/orders/delivered-orders/delivered-orders.component';
 import {ClosedOrdersComponent} from './pages/admin/orders/closed-orders/closed-orders.component';
@@ -169,7 +169,7 @@ export function getAuthServiceConfigs() {
     RateComponent,
     ListProductsComponent,
     OrdersComponent,
-    NewsOrdersComponent,
+    NewOrdersComponent,
     ShippedOrdersComponent,
     DeliveredOrdersComponent,
     ClosedOrdersComponent,

@@ -126,7 +126,7 @@ export class DiscountComponent implements OnInit {
   }
 
   isEquivalent(a, b) {
-    return a.valeurPourcentage === b.valeurPourcentage;
+    return a.percentageValue === b.percentageValue;
   }
 
 }

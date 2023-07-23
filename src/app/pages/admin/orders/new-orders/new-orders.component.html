@@ -3,21 +3,21 @@
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{ 'search' | translate }}">
   </mat-form-field>
 
-  <div *ngIf="!commandes.length" class="d-flex justify-content-center align-items-center"
+  <div *ngIf="!orders.length" class="d-flex justify-content-center align-items-center"
        style="height: 200px">
     <button class="Roundedbuttons" mat-raised-button color="warn">{{ 'YOUHAVENOITEMS' | translate }} .</button>
   </div>
-  <div *ngIf="commandes.length">
+  <div *ngIf="orders.length">
 
 
-    <mat-table [dataSource]="commandes" matSort (matSortChange)="sortData($event)"
+    <mat-table [dataSource]="orders" matSort (matSortChange)="sortData($event)"
                class=" shadow1 ">
 
       <!-- Name Column -->
       <ng-container matColumnDef="Client">
         <mat-header-cell *matHeaderCellDef> Client</mat-header-cell>
         <mat-cell style="width: 200px" *matCellDef="let element">
-          {{getFLName(element.profile.adresses)}}
+          {{getFLName(element.profile.addresses)}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="Date">
@@ -26,12 +26,12 @@
           {{element.dateC}}
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="Statut">
+      <ng-container matColumnDef="Status">
         <mat-header-cell *matHeaderCellDef> {{ 'Status' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <mat-form-field *ngIf="loggedInAdmin" floatLabel="never">
             <mat-select [disabled]="!element.edit"
-                        [(value)]="element.statut"
+                        [(value)]="element.status"
                         placeholder="Status">
               <mat-option value="new">{{ 'Ordered' | translate }}
               </mat-option>
@@ -43,24 +43,24 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <span *ngIf="!loggedInAdmin">{{element.statut}}</span>
+          <span *ngIf="!loggedInAdmin">{{element.status}}</span>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="TypePaiement">
+      <ng-container matColumnDef="PaymentType">
         <mat-header-cell *matHeaderCellDef> {{ 'Paymentmethod' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element">
 
-          <span>{{element.paiement.type}}  </span>
+          <span>{{element.payment.type}}  </span>
 
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="DeliveryType">
         <mat-header-cell *matHeaderCellDef> {{ 'Deliverymethod' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <span>{{element.livraison.type_livraison.name}}  </span>
+          <span>{{element.delivery.delivery_type.name}}  </span>
         </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="Totale">
+      <ng-container matColumnDef="Total">
         <mat-header-cell *matHeaderCellDef mat-sort-header="total"> {{ 'total' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <span class="new-price">{{element.total | currency}}  </span>
@@ -72,7 +72,7 @@
 
           </div>
         </mat-header-cell>
-        <mat-cell class="" *matCellDef="let element" class="wc-100">
+        <mat-cell *matCellDef="let element" class="wc-100">
           <div *ngIf="loggedInAdmin" class="d-flex flex-row flex-nowrap">
 
             <a color="primary" mat-icon-button *ngIf="!element.edit"
@@ -97,37 +97,37 @@
         <mat-cell *matCellDef="let detail">
           <mat-list>
             <h3 mat-subheader>{{ 'Products' | translate }}</h3>
-            <mat-list-item *ngFor="let LC of detail.element.ligne_commandes">
-              <div *ngIf="LC.Product"
+            <mat-list-item *ngFor="let LC of detail.element.line_orders">
+              <div *ngIf="LC.product"
                    class="d-flex flex-row flex-nowrap align-items-center justify-content-between">
-                <a [routerLink]="['/main/products/'+LC.Product.id]" class="img-product"
-                   [ngStyle]="{'background': 'url('+url.concat(LC.Product.article.images[0].src)+') center','background-size': 'cover'}">
+                <a [routerLink]="['/main/products/'+LC.product.id]" class="img-product" *ngIf="LC.product.article.images.length > 0"
+                   [ngStyle]="{'background': 'url('+url.concat(LC.product.article.images[0].src)+') center','background-size': 'cover'}">
                 </a>
                 <div class="d-flex flex-column">
-                  <a [routerLink]="['/main/products/'+LC.Product.id]" class="product-name">{{LC.Product.name}}</a>
-                  <span class="new-price">${{LC.quantite}} x {{LC.sousTotal}}</span>
+                  <a [routerLink]="['/main/products/'+LC.product.id]" class="product-name">{{LC.product.name}}</a>
+                  <span class="new-price">${{LC.quantity}} x {{LC.subTotal}}</span>
                 </div>
               </div>
-              <div *ngIf="!LC.Product">Product spp</div>
+              <div *ngIf="!LC.product">Product spp</div>
             </mat-list-item>
             <h3 mat-subheader>Delivery</h3>
-            <mat-list-item><span>type : </span> <span> {{detail.element.livraison.type_livraison.name}}</span>
+            <mat-list-item><span>type : </span> <span> {{detail.element.delivery.delivery_type.name}}</span>
             </mat-list-item>
             <mat-list-item><span>{{ 'address' | translate }} : </span>
-              <span> {{getAddressPro(detail.element.profile.adresses).address}}</span></mat-list-item>
-            <mat-list-item><span>{{ 'phones' | translate }} : </span> <span> {{getAddressPro(detail.element.profile.adresses).phone}}</span>
+              <span> {{getAddressPro(detail.element.profile.addresses).address}}</span></mat-list-item>
+            <mat-list-item><span>{{ 'phones' | translate }} : </span> <span> {{getAddressPro(detail.element.profile.addresses).phone}}</span>
             </mat-list-item>
             <mat-list-item><span>{{ 'city' | translate }} : </span>
-              <span> {{getAddressPro(detail.element.profile.adresses).ville.name}}</span>
+              <span> {{getAddressPro(detail.element.profile.addresses).city.name}}</span>
             </mat-list-item>
             <mat-list-item><span>{{ 'region' | translate }} : </span>
-              <span> {{getAddressPro(detail.element.profile.adresses).region.name}}</span>
+              <span> {{getAddressPro(detail.element.profile.addresses).region.name}}</span>
             </mat-list-item>
             <mat-list-item><span>{{ 'Moreinformation' | translate }} : </span>
-              <span> {{getAddressPro(detail.element.profile.adresses).info}}</span></mat-list-item>
+              <span> {{getAddressPro(detail.element.profile.addresses).info}}</span></mat-list-item>
             <h3 mat-subheader>{{ 'Paymentmethod' | translate }}</h3>
             <mat-list-item>
-              {{detail.element.paiement.type}}
+              {{detail.element.payment.type}}
             </mat-list-item>
             <h3 mat-subheader>{{ 'total' | translate }}</h3>
             <mat-list-item>
@@ -149,9 +149,9 @@
                style="overflow: hidden"></mat-row>
     </mat-table>
     <mat-paginator #paginator class="shadow1"
-                   [pageIndex]="commandePaginate.current_page-1"
-                   [pageSize]="commandePaginate.per_page"
-                   [length]="commandePaginate.total"
+                   [pageIndex]="orderPaginate.current_page-1"
+                   [pageSize]="orderPaginate.per_page"
+                   [length]="orderPaginate.total"
                    [pageSizeOptions]="[12, 24]"
                    showFirstLastButtons (page)="change(paginator)"></mat-paginator>
   </div>

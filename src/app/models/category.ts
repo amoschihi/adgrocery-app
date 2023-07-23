@@ -4,7 +4,7 @@ export class Category {
   id: number;
   name: string;
   sex: string;
-  subCategories ?: SubCategory[];
+  sub_categories ?: SubCategory[];
 
   constructor(val: Category) {
     this.id = val.id;

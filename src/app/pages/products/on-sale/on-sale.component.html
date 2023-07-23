@@ -13,11 +13,11 @@
       <div class="d-flex justify-content-between  price">
         <div class="d-flex flex-column justify-content-end">
           <p *ngIf="prod.discount" class="old-price">
-            {{prod.prix | currency}}</p>
+            {{prod.price | currency}}</p>
           <p *ngIf="prod.discount" class="new-price">
-            {{prod.prix-prod.prix*(prod.discount.valeurPourcentage/100) | currency}}
+            {{prod.price-prod.price*(prod.discount.percentageValue/100) | currency}}
           </p>
-          <p *ngIf="!prod.discount" class="new-price">{{prod.prix | currency}}</p></div>
+          <p *ngIf="!prod.discount" class="new-price">{{prod.price | currency}}</p></div>
       </div>
       <div class="divider"></div>
       <div class="text-center">

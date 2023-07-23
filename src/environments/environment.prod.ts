@@ -1,12 +1,12 @@
 export const environment = {
   production: true,
-  urlServeur: 'http://127.0.0.1:8000/api',
-  urlServeur3: 'http://localhost:3000',
+  urlServeur: 'https://adgroceries-api.essaysoldier.com/public/api',
+  urlServeur3: 'https://adgroceries-socketio.essaysoldier.com/',
   Developedby: 'Chihi Tech',
-  GoogleClientId: '462281638278-lppsc8omch3r0samgjflchbloek5lj3q.apps.googleusercontent.com', /*from google*/
+  GoogleClientId: '99185043325-03j60naklj2fm5hv1tpn96pguckktodr.apps.googleusercontent.com', /*from google*/
   FacebookClientId: '1059890950839512', /*from facebook*/
-  reCaptchaKey: '6LeRWWUUAAAAAECP1LeNo-nAtOf9tEc6CW50uOtk', /*from google*/
-  urlServeur2: 'http://127.0.0.1:8000',
-  paypalclientId: 'AbI4yMNwcUg9bMnX3C6-cGiZiGKHdECsCGDOqt8DczcOQCnpeP1q8b4jRwLIO7FSY_MoK4plfSjhESwT',
+  reCaptchaKey: '6LeDTycnAAAAABpl-8zCBeZzaK-xw6YYSogGnGO2', /*from google*/
+  urlServeur2: 'https://adgroceries-api.essaysoldier.com/public',
+  paypalclientId: 'AfNxM7bcjiSWxYQV6F5_C5XFCwoQiVO-GfZ53YvTlY0VWgEmJbZw6jR5tUb2wtCCJPEo172hAIxuF-rE',
 
 };

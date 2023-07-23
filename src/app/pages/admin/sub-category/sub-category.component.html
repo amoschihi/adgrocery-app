@@ -25,16 +25,16 @@
         [ngClass]="editCache[element.id.toString()].edit ?'mat-form-field-not-disabled':''" mat-placeholder=""
         floatLabel="never">
         <mat-select [disabled]="!editCache[element.id.toString()].edit"
-                    [(value)]="editCache[element.id.toString()].data.categorie_id"
+                    [(value)]="editCache[element.id.toString()].data.category_id"
                     placeholder="{{ 'category' | translate }}">
-          <mat-option *ngFor="let categorie of categories" [value]="categorie.id">{{categorie.name}}
+          <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </td>
   </ng-container>
   <ng-container matColumnDef="actionsColumn">
-    <th class="wc-100" mat-header-cell *matHeaderCellDef><a color="primary" mat-icon-button *ngIf="!addSousCategorie"
+    <th class="wc-100" mat-header-cell *matHeaderCellDef><a color="primary" mat-icon-button *ngIf="!addSubCategory"
                                                             (click)="add()">
       <mat-icon>add_circle</mat-icon>
     </a></th>

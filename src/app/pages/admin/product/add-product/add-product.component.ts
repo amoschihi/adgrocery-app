@@ -128,7 +128,7 @@ export class AddProductComponent extends ModelErrors implements OnInit {
 
   changeSousCat(val: any) {
     const cat = this.categories.find(value => value.id === val.value);
-    this.subCategories = cat.subCategories;
+    this.subCategories = cat.sub_categories;
   }
 
 

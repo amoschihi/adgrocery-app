@@ -59,7 +59,7 @@ export class UpdateProductComponent extends ModelErrors implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((value: { product: Product }) => {
       this.product = value.product;
-      this.subCategories = this.product.category.subCategories;
+      this.subCategories = this.product.category.sub_categories;
       this.colors_id = this.product.article.colors.map(value1 => value1.id);
       this.materials_id = this.product.article.materials.map(value1 => value1.id);
       console.log(this.colors_id);
@@ -116,7 +116,7 @@ export class UpdateProductComponent extends ModelErrors implements OnInit {
 
   changeSousCat(val: any) {
     const cat = this.categories.find(value => value.id === val.value);
-    this.subCategories = cat.subCategories;
+    this.subCategories = cat.sub_categories;
   }
 
   removeAll() {

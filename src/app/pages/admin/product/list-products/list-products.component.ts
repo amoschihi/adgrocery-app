@@ -16,7 +16,7 @@ import {ProductService} from '../../../../services/product.service';
   styleUrls: ['./list-products.component.css']
 })
 export class ListProductsComponent implements OnInit {
-  displayedColumns: string[] = ['product', 'nom', 'prix', 'Quantite', 'actionsColumn'];
+  displayedColumns: string[] = ['product', 'nom', 'price', 'quantity', 'actionsColumn'];
   products: Product[] = [];
   productPaginate: ProductPaginate = new ProductPaginate();
   url: string = environment.urlServeur2;

@@ -18,11 +18,11 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item routerLink="Product/addProduct" routerLinkActive="active">
+              <a mat-list-item routerLink="product/addProduct" routerLinkActive="active">
                 <mat-icon>add</mat-icon>
                 {{ 'newproduct' | translate }} </a>
               <mat-divider></mat-divider>
-              <a mat-list-item routerLink="Product/listProducts" routerLinkActive="active">
+              <a mat-list-item routerLink="product/listProducts" routerLinkActive="active">
                 <mat-icon>edit</mat-icon>
                 {{ 'AllProducts' | translate }} </a>
             </mat-nav-list>
@@ -35,17 +35,17 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item routerLink="actualite/addActualite" routerLinkActive="active">
+              <a mat-list-item routerLink="news/addNews" routerLinkActive="active">
                 <mat-icon>add</mat-icon>
                 {{ 'newactuality' | translate }} </a>
               <mat-divider></mat-divider>
-              <a mat-list-item routerLink="actualite/listActualites" routerLinkActive="active">
+              <a mat-list-item routerLink="news/newsList" routerLinkActive="active">
                 <mat-icon>edit</mat-icon>
                 {{ 'news' | translate }} </a>
             </mat-nav-list>
           </mat-expansion-panel>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="commandes" routerLinkActive="active">
+          <a mat-list-item routerLink="orders" routerLinkActive="active">
             <mat-icon>list</mat-icon>
             {{ 'listoforders' | translate }} </a>
           <mat-divider></mat-divider>
@@ -57,11 +57,11 @@
             <mat-icon>list</mat-icon>
             {{ 'listofregions' | translate }} </a>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="matiere" routerLinkActive="active">
-            <mat-icon>list</mat-icon>
-            {{ 'Listofmaterial' | translate }} </a>
-          <mat-divider></mat-divider>
-          <a mat-list-item routerLink="ville" routerLinkActive="active">
+<!--          <a mat-list-item routerLink="material" routerLinkActive="active">-->
+<!--            <mat-icon>list</mat-icon>-->
+<!--            {{ 'Listofmaterial' | translate }} </a>-->
+<!--          <mat-divider></mat-divider>-->
+          <a mat-list-item routerLink="city" routerLinkActive="active">
             <mat-icon>list</mat-icon>
             {{ 'Listofcity' | translate }} </a>
           <mat-divider></mat-divider>
@@ -69,11 +69,11 @@
 <!--            <mat-icon>list</mat-icon>-->
 <!--            List Brand </a>-->
 <!--          <mat-divider></mat-divider>-->
-          <a mat-list-item routerLink="categorie" routerLinkActive="active">
+          <a mat-list-item routerLink="category" routerLinkActive="active">
             <mat-icon>list</mat-icon>
             {{ 'Listofcategory' | translate }} </a>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="sousCategorie" routerLinkActive="active">
+          <a mat-list-item routerLink="subCategory" routerLinkActive="active">
             <mat-icon>list</mat-icon>
             {{ 'Listofsubcategory' | translate }}</a>
           <mat-divider></mat-divider>
@@ -81,15 +81,15 @@
             <mat-icon>list</mat-icon>
             {{ 'Listofcolor' | translate }} </a>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="reduction" routerLinkActive="active">
+          <a mat-list-item routerLink="discount" routerLinkActive="active">
             <mat-icon>list</mat-icon>
             {{ 'ListReduction' | translate }} </a>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="typeLivraison" routerLinkActive="active">
+          <a mat-list-item routerLink="deliveryType" routerLinkActive="active">
             <mat-icon>list</mat-icon>
             {{ 'Deliverymethod' | translate }} </a>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="tarif" routerLinkActive="active">
+          <a mat-list-item routerLink="rate" routerLinkActive="active">
             <mat-icon>list</mat-icon>
             {{ 'pricelist' | translate }} </a>
           <mat-divider></mat-divider>

@@ -28,13 +28,17 @@
         <div class="row">
           <mat-form-field class="col">
             <input [formControl]="region" name="{{ 'price' | translate }}" required matInput type="text"
-                   [(ngModel)]="infoSite.tele"
+                   [(ngModel)]="infoSite.tel"
                    placeholder="Telephone">
             <mat-error *ngIf="region.invalid">{{getErrorMessageRegion()}}</mat-error>
           </mat-form-field>
           <mat-form-field class="col">
-            <input name="prix" matInput type="text" [(ngModel)]="infoSite.fax"
+            <input name="fax" matInput type="text" [(ngModel)]="infoSite.fax"
                    placeholder="Fax">
+          </mat-form-field>
+          <mat-form-field class="col">
+            <input name="address" matInput type="text" [(ngModel)]="infoSite.address"
+                   placeholder="Address">
           </mat-form-field>
         </div>
       </div>
@@ -44,12 +48,12 @@
       <div class="col">
         <div class="row">
           <mat-form-field class="col">
-            <input [formControl]="lName" name="prix" required matInput type="text" [(ngModel)]="infoSite.debutDeService"
+            <input [formControl]="lName" name="serviceStart" required matInput type="text" [(ngModel)]="infoSite.serviceStart"
                    placeholder="Start of service">
             <mat-error *ngIf="lName.invalid">{{getErrorMessageLName()}}</mat-error>
           </mat-form-field>
           <mat-form-field class="col">
-            <input [formControl]="fName" name="prix" required matInput type="text" [(ngModel)]="infoSite.finDeService"
+            <input [formControl]="fName" name="serviceEnd" required matInput type="text" [(ngModel)]="infoSite.serviceEnd"
                    placeholder="End of service">
             <mat-error *ngIf="fName.invalid">{{getErrorMessageFName()}}</mat-error>
           </mat-form-field>
